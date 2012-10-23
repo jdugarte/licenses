@@ -81,6 +81,11 @@ class UsersControllerTest < ActionController::TestCase
     put :update, id: @user, user: { name: @user.name }
     assert_redirected_to new_user_session_path
   end
+  test "should not update himself" do
+    sign_in users(:user2)
+    put :update, id: @user, user: { name: @user.name }
+    assert_redirected_to users_path
+  end
   
   # destroy
   test "should destroy user" do
@@ -95,6 +100,13 @@ class UsersControllerTest < ActionController::TestCase
       delete :destroy, id: @user
     end
     assert_redirected_to new_user_session_path
+  end
+  test "should not destroy himself" do
+    sign_in users(:user2)
+    assert_no_difference('User.count') do
+      delete :destroy, id: @user
+    end
+    assert_redirected_to users_path
   end
 
 end
