@@ -1,8 +1,9 @@
 Licences::Application.routes.draw do
   
-  resources :distributors
-
   devise_for :users
+
+  resources :users
+  resources :distributors
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

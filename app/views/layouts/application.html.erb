@@ -14,6 +14,8 @@
         <% if user_signed_in? %> 
           <li><span id="currentuser"><%= current_user.email %></span></li>
           &nbsp;
+          <li><%= link_to "Users", users_path %></li>
+          <li><%= link_to "Distributors", distributors_path %></li>
           <li><%= link_to "My Profile", edit_user_password_path %></li>
           <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
         <% else %> 
@@ -26,14 +28,7 @@
       <h1>Licences</h1>
     </div>
   </header>
-
-  <section id="flash">
-    <% flash.each do |key, value| %>
-        <div class="flash <%= key %>"><%= value %></div>
-    <% end %>
-  </section>  
-
   <%= yield %>
-
 </body>
 </html>
+

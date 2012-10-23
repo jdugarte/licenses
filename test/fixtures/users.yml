@@ -1,14 +1,17 @@
 user1: 
   id: 1
+  name: User1
   email: user1@local.com
   encrypted_password: abcdef1
   
 user2: 
   id: 2
+  name: User2
   email: user2@local.com
   encrypted_password: abcdef2
   
 user3: 
   id: 3
+  name: User3
   email: user3@local.com
   encrypted_password: abcdef3
