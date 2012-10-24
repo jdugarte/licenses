@@ -16,8 +16,8 @@
           &nbsp;
           <% if current_user.admin? %>
             <li><%= link_to "Users", users_path %></li>
+            <li><%= link_to "Distributors", distributors_path %></li>
           <% end %>
-          <li><%= link_to "Distributors", distributors_path %></li>
           <li><%= link_to "My Profile", edit_user_password_path %></li>
           <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
         <% else %> 

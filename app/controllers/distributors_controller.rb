@@ -1,4 +1,7 @@
 class DistributorsController < ApplicationController
+
+  before_filter :check_admin!
+
   # GET /distributors
   # GET /distributors.json
   def index
