@@ -51,6 +51,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     @user.admin = true
+    @user.distributor_id = current_user.distributor.id
     
     respond_to do |format|
       if @user.save

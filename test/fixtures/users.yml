@@ -1,27 +1,49 @@
-user1: 
-  id: 1
-  name: User1
-  email: user1@local.com
+logiciel_admin:
+  name: Logiciel Admin
+  email: logiciel_admin@local.com
   encrypted_password: abcdef1
-  admin: false
+  admin: true
+  distributor: logiciel
   
-user2: 
-  id: 2
-  name: User2
-  email: user2@local.com
+master_admin:
+  name: Master distributor admin
+  email: master_admin@local.com
   encrypted_password: abcdef2
-  admin: false
-  
-user3: 
-  id: 3
-  name: User3
-  email: user3@local.com
+  admin: true
+  distributor: master
+
+master_user: 
+  name: Master distributor user
+  email: master_user@local.com
   encrypted_password: abcdef3
   admin: false
-
-admin:
-  id: 4
-  name: Admin
-  email: admin@local.com
+  distributor: master
+  
+dist_admin: 
+  name: Distributor admin
+  email: dist_admin@local.com
   encrypted_password: abcdef4
   admin: true
+  distributor: dist1
+  
+dist_user: 
+  name: Distributor user
+  email: dist_user@local.com
+  encrypted_password: abcdef5
+  admin: false
+  distributor: dist1
+  
+user1: 
+  name: User1
+  email: user1@local.com
+  encrypted_password: abcdef6
+  admin: false
+  distributor: dist1
+  
+user2: 
+  name: User2
+  email: user2@local.com
+  encrypted_password: abcdef7
+  admin: false
+  distributor: dist1
+  

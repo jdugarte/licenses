@@ -6,4 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-User.create :name => 'Admin', :email => 'admin@local.com', :password => '123123', :password_confirmation => '123123'
+main_dist = Distributor.create :name => 'Software Development', :main => true
+
+User.create :name => 'Admin', :email => 'admin@local.com', :password => '123123', 
+            :password_confirmation => '123123', :distributor_id => main_dist.id, 
+            :admin => true

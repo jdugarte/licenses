@@ -1,5 +1,11 @@
+logiciel:
+  name: Logiciel
+  main: true
+
 master:
   name: Master
+  main: false
 
 dist1:
   name: Distributor1
+  main: false
