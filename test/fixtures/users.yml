@@ -3,15 +3,25 @@ user1:
   name: User1
   email: user1@local.com
   encrypted_password: abcdef1
+  admin: false
   
 user2: 
   id: 2
   name: User2
   email: user2@local.com
   encrypted_password: abcdef2
+  admin: false
   
 user3: 
   id: 3
   name: User3
   email: user3@local.com
   encrypted_password: abcdef3
+  admin: false
+
+admin:
+  id: 4
+  name: Admin
+  email: admin@local.com
+  encrypted_password: abcdef4
+  admin: true

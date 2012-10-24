@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+  before_filter :check_admin!
+
   # GET /users
   # GET /users.json
   def index
@@ -48,7 +50,8 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
-
+    @user.admin = true
+    
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
