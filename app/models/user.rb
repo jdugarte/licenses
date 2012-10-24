@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :admin, :distributor_id
 
   validates :name, :presence => true
+  validates :distributor_id, :presence => true
   
   belongs_to :distributor
   
