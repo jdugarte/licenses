@@ -9,6 +9,11 @@
 <body>
 
   <header id="page_header"> 
+
+    <div id="page_title">
+      <h1>Licences</h1>
+    </div>
+
     <nav id="nav_user">
       <ul>
         <% if user_signed_in? %> 
@@ -26,11 +31,16 @@
       </ul>
     </nav>    
 
-    <div id="page_title">
-      <h1>Licences</h1>
-    </div>
+    <section id="flash">
+      <% flash.each do |key, value| %>
+        <div class="<%= key %>"><%= value %></div>
+      <% end %>
+    </section> 
+
   </header>
+
   <%= yield %>
-</body>
+
+  </body>
 </html>
 
