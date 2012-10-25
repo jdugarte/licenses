@@ -13,8 +13,4 @@ class User < ActiveRecord::Base
   
   belongs_to :distributor
   
-  def admin?
-    admin
-  end
-  
 end
