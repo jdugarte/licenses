@@ -5,7 +5,7 @@ class DistributorsController < ApplicationController
   # GET /distributors
   # GET /distributors.json
   def index
-    @distributors = Distributor.all
+    @distributors = current_user.distributor.distributors
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,7 +16,7 @@ class DistributorsController < ApplicationController
   # GET /distributors/1
   # GET /distributors/1.json
   def show
-    @distributor = Distributor.find(params[:id])
+    @distributor = current_user.distributor.distributors.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -38,7 +38,7 @@ class DistributorsController < ApplicationController
 
   # GET /distributors/1/edit
   def edit
-    @distributor = Distributor.find(params[:id])
+    @distributor = current_user.distributor.distributors.find(params[:id])
   end
 
   # POST /distributors
@@ -62,7 +62,7 @@ class DistributorsController < ApplicationController
   # PUT /distributors/1
   # PUT /distributors/1.json
   def update
-    @distributor = Distributor.find(params[:id])
+    @distributor = current_user.distributor.distributors.find(params[:id])
 
     respond_to do |format|
       if @distributor.update_attributes(params[:distributor])
@@ -78,7 +78,7 @@ class DistributorsController < ApplicationController
   # DELETE /distributors/1
   # DELETE /distributors/1.json
   def destroy
-    @distributor = Distributor.find(params[:id])
+    @distributor = current_user.distributor.distributors.find(params[:id])
     @distributor.destroy
 
     respond_to do |format|

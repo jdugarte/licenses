@@ -13,6 +13,11 @@ class DistributorsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:distributors)
   end
+  test "should not include distributors from other distributors" do
+    sign_in users(:logiciel_admin)
+    get :index
+    assert !assigns(:distributors).include?(distributors(:dist1))
+  end
   test "should not get index while not signed in" do
     get :index
     assert_redirected_to new_user_session_path
@@ -70,6 +75,11 @@ class DistributorsControllerTest < ActionController::TestCase
     get :show, id: @distributor
     assert_response :success
   end
+  test "should not show a distributor from other distributor" do
+    sign_in users(:logiciel_admin)
+    get :show, id: distributors(:dist1)
+    assert_redirected_to distributors_path
+  end
   test "should not show distributor while not signed in" do
     get :show, id: @distributor
     assert_redirected_to new_user_session_path
@@ -85,6 +95,11 @@ class DistributorsControllerTest < ActionController::TestCase
     sign_in users(:logiciel_admin)
     get :edit, id: @distributor
     assert_response :success
+  end
+  test "should not edit a distributor from other distributor" do
+    sign_in users(:logiciel_admin)
+    get :edit, id: distributors(:dist1)
+    assert_redirected_to distributors_path
   end
   test "should not get edit while not signed in" do
     get :edit, id: @distributor
@@ -102,6 +117,12 @@ class DistributorsControllerTest < ActionController::TestCase
     put :update, id: @distributor, distributor: { name: @distributor.name }
     assert_redirected_to distributor_path(assigns(:distributor))
   end
+  test "should not update a distributor from other distributor" do
+    sign_in users(:logiciel_admin)
+    dist1 = distributors(:dist1)
+    put :update, id: dist1.id, distributor: { name: dist1.name }
+    assert_redirected_to distributors_path
+  end
   test "should not update distributor while not signed in" do
     put :update, id: @distributor, distributor: { name: @distributor.name }
     assert_redirected_to new_user_session_path
@@ -117,6 +138,13 @@ class DistributorsControllerTest < ActionController::TestCase
     sign_in users(:logiciel_admin)
     assert_difference('Distributor.count', -1) do
       delete :destroy, id: @distributor
+    end
+    assert_redirected_to distributors_path
+  end
+  test "should not destroy a distributor from other distributor" do
+    sign_in users(:logiciel_admin)
+    assert_no_difference('Distributor.count') do
+      delete :destroy, id: distributors(:dist1)
     end
     assert_redirected_to distributors_path
   end

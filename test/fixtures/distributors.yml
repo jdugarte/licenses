@@ -5,7 +5,9 @@ logiciel:
 master:
   name: Master
   main: false
+  parent: logiciel
 
 dist1:
   name: Distributor1
   main: false
+  parent: master
