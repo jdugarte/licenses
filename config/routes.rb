@@ -6,6 +6,7 @@ Licences::Application.routes.draw do
 
   resources :users
   resources :distributors
+  resources :applications
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

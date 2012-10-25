@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121024180003) do
+ActiveRecord::Schema.define(:version => 20121025140509) do
+
+  create_table "applications", :force => true do |t|
+    t.string   "name",                                     :default => ""
+    t.string   "ProgramID",                                :default => ""
+    t.decimal  "price",      :precision => 8, :scale => 2, :default => 0.0
+    t.datetime "created_at",                                                :null => false
+    t.datetime "updated_at",                                                :null => false
+  end
 
   create_table "distributors", :force => true do |t|
     t.string   "name"

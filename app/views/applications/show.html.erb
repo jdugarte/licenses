@@ -1,0 +1,18 @@
+<p>
+  <b>Name:</b>
+  <%= @application.name %>
+</p>
+
+<p>
+  <b>Programid:</b>
+  <%= @application.ProgramID %>
+</p>
+
+<p>
+  <b>Price:</b>
+  <%= @application.price %>
+</p>
+
+
+<%= link_to 'Edit', edit_application_path(@application) %> |
+<%= link_to 'Back', applications_path %>
