@@ -13,6 +13,11 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:users)
   end
+  test "should not include users from other distributors" do
+    sign_in users(:logiciel_admin)
+    get :index
+    assert !assigns(:users).include?(users(:master_admin))
+  end
   test "should not get index while not signed in" do
     get :index
     assert_redirected_to new_user_session_path
@@ -69,9 +74,14 @@ class UsersControllerTest < ActionController::TestCase
   
   # show
   test "should show user" do
-    sign_in users(:logiciel_admin)
-    get :show, id: @user
+    sign_in users(:master_admin)
+    get :show, id: users(:master_user)
     assert_response :success
+  end
+  test "should not show a user from other distributor" do
+    sign_in users(:logiciel_admin)
+    get :show, id: users(:master_admin)
+    assert_redirected_to users_path
   end
   test "should not show user while not signed in" do
     get :show, id: @user
@@ -85,9 +95,14 @@ class UsersControllerTest < ActionController::TestCase
   
   # edit
   test "should get edit" do
-    sign_in users(:logiciel_admin)
-    get :edit, id: @user
+    sign_in users(:master_admin)
+    get :edit, id: users(:master_user)
     assert_response :success
+  end
+  test "should not edit a user from other distributor" do
+    sign_in users(:logiciel_admin)
+    get :edit, id: users(:master_admin)
+    assert_redirected_to users_path
   end
   test "should not get edit while not signed in" do
     get :edit, id: @user
@@ -107,9 +122,16 @@ class UsersControllerTest < ActionController::TestCase
   
   # update
   test "should update user" do
-    sign_in users(:logiciel_admin)
-    put :update, id: @user, user: { name: @user.name }
+    sign_in users(:master_admin)
+    master_user = users(:master_user)
+    put :update, id: master_user.id, user: { name: master_user.name }
     assert_redirected_to user_path(assigns(:user))
+  end
+  test "should not update a user from other distributor" do
+    sign_in users(:logiciel_admin)
+    master_admin = users(:master_admin)
+    put :update, id: master_admin.id, user: { name: master_admin.name }
+    assert_redirected_to users_path
   end
   test "should not update user while not signed in" do
     put :update, id: @user, user: { name: @user.name }
@@ -129,9 +151,17 @@ class UsersControllerTest < ActionController::TestCase
   
   # destroy
   test "should destroy user" do
-    sign_in users(:logiciel_admin)
+    sign_in users(:master_admin)
     assert_difference('User.count', -1) do
-      delete :destroy, id: @user
+      delete :destroy, id: users(:master_user)
+    end
+    assert_redirected_to users_path
+  end
+  test "should not destroy a user from other distributor" do
+    sign_in users(:logiciel_admin)
+    master_admin = users(:master_admin)
+    assert_no_difference('User.count') do
+      delete :destroy, id: users(:master_admin)
     end
     assert_redirected_to users_path
   end

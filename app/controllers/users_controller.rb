@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = current_user.distributor.users
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.find(params[:id])
+    @user = current_user.distributor.users.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @user = User.find(params[:id])
+    @user = current_user.distributor.users.find(params[:id])
     if @user.id == current_user.id
       respond_to do |format|
         format.html { redirect_to users_url }
@@ -67,7 +67,7 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.json
   def update
-    @user = User.find(params[:id])
+    @user = current_user.distributor.users.find(params[:id])
 
     respond_to do |format|
       if @user.id == current_user.id
@@ -86,7 +86,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user = User.find(params[:id])
+    @user = current_user.distributor.users.find(params[:id])
     if @user.id != current_user.id
       @user.destroy
     end
