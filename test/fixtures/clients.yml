@@ -1,0 +1,9 @@
+client1:
+  name: Client 1
+  email: client1@local.com
+  distributor: dist1
+
+client2:
+  name: Client 2
+  email: client2@local.com
+  distributor: dist1

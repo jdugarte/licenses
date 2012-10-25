@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     redirect_to :root if !current_user.admin? or !current_user.distributor.main?
   end
   
+  def check_dist!
+    redirect_to :root unless current_user.distributor.dist?
+  end
+  
   def record_not_found(exception)
     model = exception.message.match(/Couldn't find (.*) with.*/)[1].downcase
     flash[:error] = "The #{model} you requested could not be found."

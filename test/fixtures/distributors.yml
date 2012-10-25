@@ -11,3 +11,8 @@ dist1:
   name: Distributor1
   main: false
   parent: master
+
+dist2:
+  name: Distributor2
+  main: false
+  parent: master

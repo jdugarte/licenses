@@ -27,6 +27,9 @@
           <% if current_user.admin? and current_user.distributor.main? %>
             <li><%= link_to "Applications", applications_path %></li>
           <% end %>
+          <% if current_user.distributor.dist? %>
+            <li><%= link_to "Clients", clients_path %></li>
+          <% end %>
           <li><%= link_to "My Profile", edit_user_password_path %></li>
           <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
         </ul>
