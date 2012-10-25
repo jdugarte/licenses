@@ -14,11 +14,10 @@
       <h1>Licences</h1>
     </div>
 
-    <nav id="nav_user">
-      <ul>
-        <% if user_signed_in? %> 
-          <li><span id="currentuser"><%= current_user.email %></span></li>
-          &nbsp;
+    <% if user_signed_in? %> 
+      <nav id="nav_user">
+        <p><span id="currentuser"><%= current_user.name %></span></p>
+        <ul>
           <% if current_user.admin? %>
             <li><%= link_to "Users", users_path %></li>
           <% end %>
@@ -27,11 +26,9 @@
           <% end %>
           <li><%= link_to "My Profile", edit_user_password_path %></li>
           <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
-        <% else %> 
-          <li><%= link_to "Sign in", new_user_session_path %></li>
-        <% end %>
-      </ul>
-    </nav>    
+        </ul>
+      </nav>    
+    <% end %>
 
     <section id="flash">
       <% flash.each do |key, value| %>
