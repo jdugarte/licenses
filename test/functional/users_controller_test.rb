@@ -26,6 +26,9 @@ class UsersControllerTest < ActionController::TestCase
     sign_in users(:master_user)
     get :index
     assert_redirected_to root_path
+    sign_in users(:dist_user)
+    get :index
+    assert_redirected_to root_path
   end
 
   # new

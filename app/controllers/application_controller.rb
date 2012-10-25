@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
   
   def check_admin!
-    redirect_to :root if !current_user.admin?
+    redirect_to :root if !current_user.admin? or current_user.distributor.dist?
   end
   
   def record_not_found(exception)
