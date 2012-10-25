@@ -9,4 +9,13 @@ class DistributorTest < ActiveSupport::TestCase
     assert !dist.save
   end
 
+  test "should have correct type" do
+    assert_equal distributors(:logiciel).type, Distributor::MAIN
+    assert distributors(:logiciel).main?
+    assert_equal distributors(:master).type, Distributor::MASTER
+    assert distributors(:master).master?
+    assert_equal distributors(:dist1).type, Distributor::DISTRIBUTOR
+    assert distributors(:dist1).dist?
+  end
+
 end

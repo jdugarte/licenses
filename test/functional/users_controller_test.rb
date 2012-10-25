@@ -66,10 +66,18 @@ class UsersControllerTest < ActionController::TestCase
     end
     assert_redirected_to root_path
   end
-  test "admin should only create admin users" do
+  test "main distributor should only create admin users" do
     sign_in users(:logiciel_admin)
     post :create, user: get_new_user
     assert(assigns(:user).admin)
+  end
+  test "distributors other than main should create regular users by default" do
+    sign_in users(:master_admin)
+    post :create, user: get_new_user
+    assert !assigns(:user).admin
+    sign_in users(:dist_admin)
+    post :create, user: get_new_user
+    assert !assigns(:user).admin
   end
   
   # show
@@ -159,7 +167,6 @@ class UsersControllerTest < ActionController::TestCase
   end
   test "should not destroy a user from other distributor" do
     sign_in users(:logiciel_admin)
-    master_admin = users(:master_admin)
     assert_no_difference('User.count') do
       delete :destroy, id: users(:master_admin)
     end

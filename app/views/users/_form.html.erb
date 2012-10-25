@@ -32,6 +32,11 @@
     <%= f.password_field :password_confirmation %>
   </div>
 
+  <% if current_user.admin? and !current_user.distributor.main? %>
+    <%= f.check_box :admin %>
+    <%= f.label :admin %>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

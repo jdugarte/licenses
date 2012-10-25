@@ -10,4 +10,26 @@ class Distributor < ActiveRecord::Base
   attr_accessible :name, :main, :users_attributes
   accepts_nested_attributes_for :users
   
+  MAIN        = 1
+  MASTER      = 2
+  DISTRIBUTOR = 3
+  
+  def type
+    if main?
+      MAIN
+    elsif parent.main?
+      MASTER
+    else
+      DISTRIBUTOR
+    end
+  end
+  
+  def master?
+    !parent.nil? and parent.main?
+  end
+  
+  def dist?
+    !main? and !master?
+  end
+  
 end

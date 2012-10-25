@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
-    @user.admin = true
+    @user.admin = true if current_user.distributor.main?
     @user.distributor_id = current_user.distributor.id
     
     respond_to do |format|
