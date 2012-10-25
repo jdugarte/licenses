@@ -2,19 +2,14 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
 
-  test "should not have empty name email" do
+  test "should not have empty name email password" do
     user = User.new 
     user.distributor_id = 1
-    assert user.invalid? 
-    assert user.errors[:name].any?
-    assert user.errors[:email].any?
+    assert user.invalid?, "invalid?"
+    assert user.errors[:name].any?, "name"
+    assert user.errors[:email].any?, "email"
+    assert user.errors[:password].any?, "password"
     assert !user.save
   end
 
-  test "must belong to a distributor" do
-    user = User.new :name => "User", :email => "email@local.com"
-    assert user.invalid?
-    assert !user.save
-  end
-  
 end

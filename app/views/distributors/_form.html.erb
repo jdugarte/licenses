@@ -1,4 +1,5 @@
 <%= form_for(@distributor) do |f| %>
+
   <% if @distributor.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@distributor.errors.count, "error") %> prohibited this distributor from being saved:</h2>
@@ -15,7 +16,39 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
+  
+  <% if @distributor.new_record? %>
+
+    <%= f.fields_for :users do |builder| %>
+
+      <h2>Admin user</h2>
+
+      <div class="field">
+        <%= builder.label :name %><br />
+        <%= builder.text_field :name %>
+      </div>
+
+      <div class="field">
+        <%= builder.label :email %><br />
+        <%= builder.email_field :email %>
+      </div>
+
+      <div class="field">
+        <%= builder.label :password %><br />
+        <%= builder.password_field :password %>
+      </div>
+
+      <div class="field">
+        <%= builder.label :password_confirmation %><br />
+        <%= builder.password_field :password_confirmation %>
+      </div>
+      
+    <% end %>
+    
+  <% end %>
+  
   <div class="actions">
     <%= f.submit %>
   </div>
+
 <% end %>

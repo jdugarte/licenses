@@ -40,12 +40,15 @@ class DistributorsControllerTest < ActionController::TestCase
   end
     
   # create
-  test "should create distributor" do
+  test "should create distributor and admin user" do
     sign_in users(:logiciel_admin)
     assert_difference('Distributor.count') do
-      post :create, distributor: { name: @distributor.name }
+      assert_difference('User.count') do
+        post :create, distributor: { name: @distributor.name, users_attributes: { "0" => { name: 'New user', email: 'new@local.com', password: '123123', password_confirmation: '123123', admin: true } } }
+      end
     end
     assert_redirected_to distributor_path(assigns(:distributor))
+    assert(assigns(:distributor).users.first.admin)
   end
   test "should not create distributor while not signed in" do
     assert_no_difference('Distributor.count') do

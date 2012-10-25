@@ -28,6 +28,7 @@ class DistributorsController < ApplicationController
   # GET /distributors/new.json
   def new
     @distributor = Distributor.new
+    @distributor.users.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,6 +45,8 @@ class DistributorsController < ApplicationController
   # POST /distributors.json
   def create
     @distributor = Distributor.new(params[:distributor])
+    @distributor.distributor_id = current_user.distributor.id
+    @distributor.users.first.admin = true
 
     respond_to do |format|
       if @distributor.save
