@@ -6,5 +6,6 @@ class Client < ActiveRecord::Base
   attr_accessible :name, :email, :distributor_id
   
   belongs_to :distributor
+  has_many :computers
 
 end

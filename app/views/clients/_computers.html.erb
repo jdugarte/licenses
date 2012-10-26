@@ -1,0 +1,12 @@
+<h2>Computers</h2>
+
+<table>
+
+  <% @client.computers.each do |computer| %>
+    <tr>
+      <td><%= computer.name %></td>
+      <td><%= link_to "Edit", edit_client_computer_path(@client, computer) %></td>
+    </tr>
+  <% end %>
+
+</table>

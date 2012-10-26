@@ -1,0 +1,15 @@
+pc1:
+  name: PC1
+  client: client1
+  hd_volumen_serial: 1
+  motherboard_bios: 1
+  cpu: 1
+  hard_drive: 1
+
+pc2:
+  name: PC2
+  client: client1
+  hd_volumen_serial: 1
+  motherboard_bios: 1
+  cpu: 1
+  hard_drive: 1
