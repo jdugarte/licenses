@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.json
   def new
-    @user = User.new
+    @user = current_user.distributor.users.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -49,9 +49,8 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(params[:user])
+    @user = current_user.distributor.users.build(params[:user])
     @user.admin = true if current_user.distributor.main?
-    @user.distributor_id = current_user.distributor.id
     
     respond_to do |format|
       if @user.save

@@ -27,7 +27,7 @@ class DistributorsController < ApplicationController
   # GET /distributors/new
   # GET /distributors/new.json
   def new
-    @distributor = Distributor.new
+    @distributor = current_user.distributor.distributors.build
     @distributor.users.build
 
     respond_to do |format|
@@ -44,8 +44,7 @@ class DistributorsController < ApplicationController
   # POST /distributors
   # POST /distributors.json
   def create
-    @distributor = Distributor.new(params[:distributor])
-    @distributor.distributor_id = current_user.distributor.id
+    @distributor = current_user.distributor.distributors.build(params[:distributor])
     @distributor.users.first.admin = true
 
     respond_to do |format|

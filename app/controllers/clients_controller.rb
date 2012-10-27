@@ -27,7 +27,7 @@ class ClientsController < ApplicationController
   # GET /clients/new
   # GET /clients/new.json
   def new
-    @client = Client.new
+    @client = current_user.distributor.clients.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,8 +43,7 @@ class ClientsController < ApplicationController
   # POST /clients
   # POST /clients.json
   def create
-    @client = Client.new(params[:client])
-    @client.distributor_id = current_user.distributor.id
+    @client = current_user.distributor.clients.build(params[:client])
 
     respond_to do |format|
       if @client.save
