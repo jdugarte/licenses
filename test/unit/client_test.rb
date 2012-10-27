@@ -29,8 +29,10 @@ class ClientTest < ActiveSupport::TestCase
     assert client2.save
   end
   
-  def get_new_client
-    { name: 'New client', email: 'new_client@local.com', distributor_id: 1 }
-  end
+  private
+  
+    def get_new_client
+      { name: 'New client', email: 'new_client@local.com', distributor_id: 1 }
+    end
   
 end

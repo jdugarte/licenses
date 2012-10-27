@@ -136,8 +136,8 @@ class ClientsControllerTest < ActionController::TestCase
 
   private
   
-  def get_new_client
-    { name: 'New client', email: 'new_client@local.com', distributor_id: 1 }
-  end
+    def get_new_client
+      { name: 'New client', email: 'new_client@local.com', distributor_id: 1 }
+    end
   
 end

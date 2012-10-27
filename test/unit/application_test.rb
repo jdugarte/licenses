@@ -19,8 +19,10 @@ class ApplicationTest < ActiveSupport::TestCase
     assert !application2.save
   end
   
-  def get_new_application
-    { name: 'New application', ProgramID: '7F8FOIFKRI48RUJFNFIFI4RU', price: 9.99 }
-  end
+  private
+  
+    def get_new_application
+      { name: 'New application', ProgramID: '7F8FOIFKRI48RUJFNFIFI4RU', price: 9.99 }
+    end
   
 end
