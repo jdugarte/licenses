@@ -8,7 +8,7 @@ Licences::Application.routes.draw do
   resources :distributors
   resources :applications
   resources :clients do
-    resources :computers, :only => [ :edit, :update ]
+    resources :computers, :only => [ :edit, :update, :new, :create ]
   end
 
   # The priority is based upon order of creation:

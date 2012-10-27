@@ -3,9 +3,36 @@ class ComputersController < ApplicationController
   before_filter :check_dist!
   before_filter :load_client
 
+  # GET /clients/1/computers/new
+  # GET /clients/1/computers/new.json
+  def new
+    @computer = @client.computers.build
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @computer }
+    end
+  end
+
   # GET /clients/1/computers/1/edit
   def edit
     @computer = @client.computers.find(params[:id])
+  end
+
+  # POST /clients/1/computers
+  # POST /clients/1/computers.json
+  def create
+    @computer = @client.computers.build(params[:computer])
+
+    respond_to do |format|
+      if @client.save
+        format.html { redirect_to @client, notice: 'Computer was successfully created.' }
+        format.json { render json: @computer, status: :created, location: @computer }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @computer.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PUT /clients/1/computers/1

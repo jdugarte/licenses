@@ -16,3 +16,5 @@
 <% unless @client.computers.empty? %>
   <%= render "computers" %>
 <% end %>
+
+<%= link_to "New Computer", new_client_computer_path(@client) %>
