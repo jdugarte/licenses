@@ -13,3 +13,19 @@ pc2:
   motherboard_bios: 1
   cpu: 1
   hard_drive: 1
+
+pc3:
+  name: PC3
+  client: client2
+  hd_volumen_serial: 1
+  motherboard_bios: 1
+  cpu: 1
+  hard_drive: 1
+
+pc4:
+  name: PC4
+  client: client4
+  hd_volumen_serial: 1
+  motherboard_bios: 1
+  cpu: 1
+  hard_drive: 1

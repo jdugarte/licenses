@@ -7,3 +7,13 @@ client2:
   name: Client 2
   email: client2@local.com
   distributor: dist1
+
+client3:
+  name: Client 3
+  email: client3@local.com
+  distributor: dist1
+
+client4:
+  name: Client 4
+  email: client4@local.com
+  distributor: dist1

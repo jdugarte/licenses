@@ -29,6 +29,16 @@ class ClientTest < ActiveSupport::TestCase
     assert client2.save
   end
   
+  test "requesting scope should return only unique clients with unprocessed licenses" do
+    req_clients = Client.requesting
+    req_clients.reload
+    assert_equal 2, req_clients.size
+    assert req_clients.include?(clients(:client1))
+    assert req_clients.include?(clients(:client2))
+    assert !req_clients.include?(clients(:client3)), "Client without a license request"
+    assert !req_clients.include?(clients(:client4)), "Client with only active licenses"
+  end
+  
   private
   
     def get_new_client

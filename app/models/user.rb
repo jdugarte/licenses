@@ -12,5 +12,6 @@ class User < ActiveRecord::Base
   #validates :distributor_id, :presence => true
   
   belongs_to :distributor
+  has_many   :licenses
   
 end

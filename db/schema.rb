@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121026185439) do
+ActiveRecord::Schema.define(:version => 20121028153928) do
 
   create_table "applications", :force => true do |t|
     t.string   "name",                                     :default => ""
@@ -53,6 +53,30 @@ ActiveRecord::Schema.define(:version => 20121026185439) do
   end
 
   add_index "distributors", ["distributor_id"], :name => "index_distributors_on_distributor_id"
+
+  create_table "licenses", :force => true do |t|
+    t.integer  "application_id"
+    t.integer  "computer_id"
+    t.string   "sitecode",          :limit => 8,  :default => ""
+    t.string   "mid",               :limit => 19, :default => ""
+    t.string   "activacion_code",   :limit => 35, :default => ""
+    t.string   "removal_code",      :limit => 8,  :default => ""
+    t.integer  "hd_volumen_serial", :limit => 4,  :default => 0
+    t.integer  "motherboard_bios",  :limit => 4,  :default => 0
+    t.integer  "cpu",               :limit => 4,  :default => 0
+    t.integer  "hard_drive",        :limit => 4,  :default => 0
+    t.text     "notes"
+    t.text     "removal_reason"
+    t.integer  "status",            :limit => 1,  :default => 0
+    t.datetime "processing_date"
+    t.integer  "user_id"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+  end
+
+  add_index "licenses", ["application_id"], :name => "index_licenses_on_application_id"
+  add_index "licenses", ["computer_id"], :name => "index_licenses_on_computer_id"
+  add_index "licenses", ["user_id"], :name => "index_licenses_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",    :null => false

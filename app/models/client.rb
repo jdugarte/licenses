@@ -7,5 +7,8 @@ class Client < ActiveRecord::Base
   
   belongs_to :distributor
   has_many :computers
+  has_many :licenses, :through => :computers
+
+  scope :requesting, joins(:licenses).where(:licenses => { :status => License::UNPROCESSED }).uniq
 
 end
