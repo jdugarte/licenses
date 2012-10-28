@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Licences::Application.load_tasks
+Licenses::Application.load_tasks

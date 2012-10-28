@@ -1,4 +1,4 @@
-Licences::Application.routes.draw do
+Licenses::Application.routes.draw do
   
   get "dashboard/index"
 
