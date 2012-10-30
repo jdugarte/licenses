@@ -74,16 +74,43 @@ class LicenseTest < ActiveSupport::TestCase
     assert_equal 19,  computer.cpu, "cpu"
     assert_equal 125, computer.hard_drive, "hard_drive"
   end
-  test "should raise ArgumentError" do
+  test "should raise ArgumentError when renewing" do
     license = licenses(:processed1)
     assert_raise ArgumentError do
       license.renew
     end
   end
-  test "should raise License::NotActive" do
+  test "should raise License::NotActive when renewing" do
     license = licenses(:unprocessed1)
     assert_raise License::NotActive do
       license.renew "XXXXXXXX", "XXXX-XXXX-XXXX-XXXX", users(:user1)
+    end
+  end
+  
+  # remove
+  test "should remove license" do
+    license = licenses(:logiciel)
+    license.remove "9D3FB81E", users(:user1), "Test removing"
+    assert license.removed?, "removed?"
+    assert_equal "Test removing", license.removal_reason, "removal_reason"
+    assert_equal users(:user1).id, license.user.id, "user"
+  end
+  test "should raise ArgumentError when removing" do
+    license = licenses(:processed1)
+    assert_raise ArgumentError do
+      license.remove
+    end
+  end
+  test "should raise License::NotActive when removing" do
+    license = licenses(:unprocessed1)
+    assert_raise License::NotActive do
+      license.remove "XXXXXXXX", users(:user1)
+    end
+  end
+  test "should raise License::IncorrectRemovalCode" do
+    license = licenses(:logiciel)
+    assert_raise License::IncorrectRemovalCode do
+      license.remove "XXXXXXXX", users(:user1)
     end
   end
   

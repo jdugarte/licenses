@@ -18,7 +18,7 @@ class License < ActiveRecord::Base
   belongs_to :computer
   belongs_to :user
 
-  attr_accessible :sitecode, :mid, :activation_code, :removal_code, :hd_volumen_serial, :motherboard_motherboard_bios, :cpu, :hard_drive, :notes, :removal_reason, :status, :processing_date
+  attr_accessible :sitecode, :mid, :activation_code, :removal_code, :removal_reason, :hd_volumen_serial, :motherboard_bios, :cpu, :hard_drive, :notes, :status, :processing_date, :user
   
   class AlreadyProcessed < StandardError; end
   class NotActive < StandardError; end
@@ -78,6 +78,21 @@ class License < ActiveRecord::Base
       computer.save!
       self.save!
     end
+  end
+
+  def remove(given_removal_code, user_removing, reason = "")
+    
+    raise ArgumentError if given_removal_code.blank? or user_removing.nil?
+    raise NotActive unless active?
+    raise IncorrectRemovalCode unless removal_code == given_removal_code
+    
+    # mov = GenerarMovimientoHistorico()
+    self.assign_attributes status: REMOVED, removal_reason: reason, user: user_removing
+    License.transaction do
+      # mov.save!
+      self.save!
+    end
+    
   end
 
 end
