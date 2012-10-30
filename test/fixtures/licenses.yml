@@ -1,8 +1,8 @@
 unprocessed1:
   application: accounting
   computer: pc1
-  sitecode: XXXX-XXXX-XXXX-XXXX
-  mid: XXXXXXXX
+  sitecode: XXXXXXXX
+  mid: XXXX-XXXX-XXXX-XXXX
   activacion_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
   removal_code: XXXXXXXX
   hd_volumen_serial: 1
@@ -18,8 +18,8 @@ unprocessed1:
 unprocessed2:
   application: accounting
   computer: pc2
-  sitecode: XXXX-XXXX-XXXX-XXXX
-  mid: XXXXXXXX
+  sitecode: XXXXXXXX
+  mid: XXXX-XXXX-XXXX-XXXX
   activacion_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
   removal_code: XXXXXXXX
   hd_volumen_serial: 1
@@ -35,8 +35,8 @@ unprocessed2:
 unprocessed3:
   application: accounting
   computer: pc3
-  sitecode: XXXX-XXXX-XXXX-XXXX
-  mid: XXXXXXXX
+  sitecode: XXXXXXXX
+  mid: XXXX-XXXX-XXXX-XXXX
   activacion_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
   removal_code: XXXXXXXX
   hd_volumen_serial: 1
@@ -52,8 +52,8 @@ unprocessed3:
 processed1:
   application: payroll
   computer: pc4
-  sitecode: XXXX-XXXX-XXXX-XXXX
-  mid: XXXXXXXX
+  sitecode: XXXXXXXX
+  mid: XXXX-XXXX-XXXX-XXXX
   activacion_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
   removal_code: XXXXXXXX
   hd_volumen_serial: 1
@@ -82,3 +82,21 @@ two:
   status: 1
   processing_date: 2012-10-28 11:39:29
   user: 
+
+dummy:
+  application: dummy
+  computer: dummy
+  sitecode: 7B3AD05C
+  mid: 8E98-FE2D-C8B7-3C55
+  activacion_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
+  removal_code: XXXXXXXX
+  hd_volumen_serial: 1
+  motherboard_bios: 1
+  cpu: 1
+  hard_drive: 1
+  notes: New license
+  removal_reason: XXXXXXXX
+  status: 2
+  processing_date: 2012-10-28 11:39:29
+  user: dist_user
+

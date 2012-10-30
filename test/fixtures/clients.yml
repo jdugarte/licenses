@@ -17,3 +17,8 @@ client4:
   name: Client 4
   email: client4@local.com
   distributor: dist1
+
+dummy:
+  name: Dummy
+  email: dummy@local.com
+  distributor: dist1

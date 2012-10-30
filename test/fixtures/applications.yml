@@ -7,3 +7,8 @@ payroll:
   name: Payroll
   ProgramID: JFJG663KM39F87EH3NFIVENJ
   price: 99.99
+
+dummy:
+  name: PCGuard test project application
+  ProgramID: 44A070027F7F5DF6997F767C
+  price: 99.99

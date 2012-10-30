@@ -29,3 +29,11 @@ pc4:
   motherboard_bios: 1
   cpu: 1
   hard_drive: 1
+
+dummy:
+  name: Dummy
+  client: dummy
+  hd_volumen_serial: 1
+  motherboard_bios: 1
+  cpu: 1
+  hard_drive: 1
