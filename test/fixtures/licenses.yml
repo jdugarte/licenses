@@ -3,7 +3,7 @@ unprocessed1:
   computer: pc1
   sitecode: XXXXXXXX
   mid: XXXX-XXXX-XXXX-XXXX
-  activacion_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
+  activation_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
   removal_code: XXXXXXXX
   hd_volumen_serial: 1
   motherboard_bios: 1
@@ -20,7 +20,7 @@ unprocessed2:
   computer: pc2
   sitecode: XXXXXXXX
   mid: XXXX-XXXX-XXXX-XXXX
-  activacion_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
+  activation_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
   removal_code: XXXXXXXX
   hd_volumen_serial: 1
   motherboard_bios: 1
@@ -37,7 +37,7 @@ unprocessed3:
   computer: pc3
   sitecode: XXXXXXXX
   mid: XXXX-XXXX-XXXX-XXXX
-  activacion_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
+  activation_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
   removal_code: XXXXXXXX
   hd_volumen_serial: 1
   motherboard_bios: 1
@@ -54,7 +54,7 @@ processed1:
   computer: pc4
   sitecode: XXXXXXXX
   mid: XXXX-XXXX-XXXX-XXXX
-  activacion_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
+  activation_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
   removal_code: XXXXXXXX
   hd_volumen_serial: 1
   motherboard_bios: 1
@@ -71,7 +71,7 @@ two:
   computer: 
   sitecode: MyString
   mid: MyString
-  activacion_code: MyString
+  activation_code: MyString
   removal_code: MyString
   hd_volumen_serial: 1
   motherboard_bios: 1
@@ -88,12 +88,29 @@ dummy:
   computer: dummy
   sitecode: 7B3AD05C
   mid: 8E98-FE2D-C8B7-3C55
-  activacion_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
+  activation_code: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
   removal_code: XXXXXXXX
   hd_volumen_serial: 1
   motherboard_bios: 1
   cpu: 1
   hard_drive: 1
+  notes: New license
+  removal_reason: XXXXXXXX
+  status: 2
+  processing_date: 2012-10-28 11:39:29
+  user: dist_user
+
+logiciel:
+  application: dummy
+  computer: logiciel
+  sitecode: 2B6FE47B
+  mid: 52C3-B75E-B254-01FC
+  activation_code: 0130C2C1-7C10B2D0-72A8120B-8D47687F
+  removal_code: 9D3FB81E
+  hd_volumen_serial: 101
+  motherboard_bios: 659
+  cpu: 19
+  hard_drive: 125
   notes: New license
   removal_reason: XXXXXXXX
   status: 2

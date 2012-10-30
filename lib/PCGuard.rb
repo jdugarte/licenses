@@ -81,7 +81,7 @@ class PCGuard
     @network_card      = l.NETID.to_i
     
     # Return activation code
-    @activacion_code
+    @activation_code
     
   end
   

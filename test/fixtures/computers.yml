@@ -37,3 +37,11 @@ dummy:
   motherboard_bios: 1
   cpu: 1
   hard_drive: 1
+
+logiciel:
+  name: Logiciel
+  client: dummy
+  hd_volumen_serial: 101
+  motherboard_bios: 659
+  cpu: 19
+  hard_drive: 125

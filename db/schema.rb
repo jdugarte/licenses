@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(:version => 20121028153928) do
     t.integer  "computer_id"
     t.string   "sitecode",          :limit => 8,  :default => ""
     t.string   "mid",               :limit => 19, :default => ""
-    t.string   "activacion_code",   :limit => 35, :default => ""
+    t.string   "activation_code",   :limit => 35, :default => ""
     t.string   "removal_code",      :limit => 8,  :default => ""
     t.integer  "hd_volumen_serial", :limit => 4,  :default => 0
     t.integer  "motherboard_bios",  :limit => 4,  :default => 0

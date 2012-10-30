@@ -18,7 +18,7 @@ class License < ActiveRecord::Base
   belongs_to :computer
   belongs_to :user
 
-  attr_accessible :sitecode, :mid, :activacion_code, :removal_code, :hd_volumen_serial, :motherboard_bios, :cpu, :hard_drive, :notes, :removal_reason, :status, :processing_date
+  attr_accessible :sitecode, :mid, :activation_code, :removal_code, :hd_volumen_serial, :motherboard_motherboard_bios, :cpu, :hard_drive, :notes, :removal_reason, :status, :processing_date
   
   class AlreadyProcessed < StandardError; end
   class NotActive < StandardError; end
@@ -49,11 +49,35 @@ class License < ActiveRecord::Base
   # process license
   def approve!
     raise AlreadyProcessed if status != UNPROCESSED
-    self.update_attribute(:status, ACTIVE)
+    self.update_attribute(:status, ACTIVE) if self.valid?
   end
   def reject!
     raise AlreadyProcessed if status != UNPROCESSED
-    self.update_attribute(:status, REJECTED)
+    self.update_attribute(:status, REJECTED) if self.valid?
   end
   
+  def renew(new_sitecode, new_mid, new_user, new_notes = "")
+    raise ArgumentError if new_sitecode.blank? or new_mid.blank? or new_user.nil?
+    raise NotActive unless active?
+    
+    l = PCGuard.new(application.ProgramID, new_sitecode, new_mid)
+
+    raise ComputerNotRegistered if motherboard_bios.nonzero? != l.motherboard_bios and cpu.nonzero? != l.cpu and hard_drive.nonzero? != l.hard_drive
+    
+    # mov = GenerarMovimientoHistorico()
+
+    computer.assign_attributes motherboard_bios: l.motherboard_bios, cpu: l.cpu, 
+      hard_drive: l.hard_drive, hd_volumen_serial: l.hd_volumen_serial
+    self.assign_attributes sitecode: new_sitecode, mid: new_mid, notes: new_notes, user: new_user, 
+      activation_code: l.activation_code, removal_code: l.removal_code, cpu: l.cpu, 
+      motherboard_bios: l.motherboard_bios, hard_drive: l.hard_drive, 
+      hd_volumen_serial: l.hd_volumen_serial
+    
+    License.transaction do
+      # mov.save!
+      computer.save!
+      self.save!
+    end
+  end
+
 end
