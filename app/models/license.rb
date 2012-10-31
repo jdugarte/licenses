@@ -7,7 +7,6 @@ class License < ActiveRecord::Base
   ACTIVE = 2
   REJECTED = 3
   REMOVED = 4
-  TRANSFERRING = 5
   
   validates :sitecode, :mid, :status, :presence => true
   validate :only_one_active_license_per_computer
@@ -41,9 +40,6 @@ class License < ActiveRecord::Base
   end
   def removed?
     status == REMOVED
-  end
-  def transferring?
-    status == TRANSFERRING
   end
   
   # process license

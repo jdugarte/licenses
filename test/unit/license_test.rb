@@ -34,7 +34,6 @@ class LicenseTest < ActiveSupport::TestCase
     assert licenses(:processed1).active?
     # assert licenses(:rejected).rejected?
     # assert licenses(:removed).removed?
-    # assert licenses(:transferring).transferring?
   end
   
   # process
