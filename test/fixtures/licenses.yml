@@ -100,3 +100,37 @@ logiciel:
   processing_date: 2012-10-28 11:39:29
   user: dist_user
 
+renew_one:
+  application: dummy
+  computer: renew_one
+  sitecode: 24E34C67
+  mid: 632D-8F3E-9EE3-FDFB
+  activation_code: 048E2FC7-02ADFD4B-1FF0DFE9-91FCA3D2
+  removal_code: CA03FF8E
+  hd_volumen_serial: 0
+  motherboard_bios: 702
+  cpu: 3
+  hard_drive: 106
+  notes: renew_one
+  removal_reason:
+  status: 2
+  processing_date: 2012-10-28 11:39:29
+  user: dist_user
+
+renew_two:
+  application: dummy
+  computer: renew_two
+  sitecode: 416CB0A6
+  mid: 258B-B80B-C08C-D0C8
+  activation_code: 3C53A7CE-7624C612-D611BCD6-5C846556
+  removal_code: CA03FF8E
+  hd_volumen_serial: 0
+  motherboard_bios: 389
+  cpu: 19
+  hard_drive: 46
+  notes: renew_one
+  removal_reason:
+  status: 2
+  processing_date: 2012-10-28 11:39:29
+  user: dist_user
+

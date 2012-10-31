@@ -74,6 +74,16 @@ class LicenseTest < ActiveSupport::TestCase
     assert_equal 19,  computer.cpu, "cpu"
     assert_equal 125, computer.hard_drive, "hard_drive"
   end
+  test "should renew license with a difference in one ID code" do
+    license = licenses(:renew_one)
+    license.renew "044D4C09", "8F33-D6E7-C3A0-426B", users(:user1), "Update license"
+    assert_equal "4C005669-8A726B99-2EFA705E-805420E4", license.activation_code, "activation_code"
+  end
+  test "should renew license with a difference in two ID codes" do
+    license = licenses(:renew_two)
+    license.renew "2D2DE1E4", "D2A3-60ED-3518-68FE", users(:user1), "Update license"
+    assert_equal "39FB9217-C0BC6415-554909A9-91BAA844", license.activation_code, "activation_code"
+  end
   test "should raise ArgumentError when renewing" do
     license = licenses(:processed1)
     assert_raise ArgumentError do

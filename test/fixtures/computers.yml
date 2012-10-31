@@ -45,3 +45,19 @@ logiciel:
   motherboard_bios: 659
   cpu: 19
   hard_drive: 125
+
+renew_one:
+  name: renew_one
+  client: dummy
+  hd_volumen_serial: 0
+  motherboard_bios: 702
+  cpu: 3
+  hard_drive: 106
+
+renew_two:
+  name: renew_two
+  client: dummy
+  hd_volumen_serial: 0
+  motherboard_bios: 389
+  cpu: 19
+  hard_drive: 46
