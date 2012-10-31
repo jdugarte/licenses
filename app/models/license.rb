@@ -16,6 +16,7 @@ class License < ActiveRecord::Base
   belongs_to :application
   belongs_to :computer
   belongs_to :user
+  has_many :movements
 
   attr_accessible :sitecode, :mid, :activation_code, :removal_code, :removal_reason, :hd_volumen_serial, :motherboard_bios, :cpu, :hard_drive, :notes, :status, :processing_date, :user, :computer, :application
   
@@ -61,7 +62,7 @@ class License < ActiveRecord::Base
 
     check_computer_ids computer, l
     
-    # mov = GenerarMovimientoHistorico()
+    movement = archive()
     computer.assign_attributes motherboard_bios: l.motherboard_bios, cpu: l.cpu, 
       hard_drive: l.hard_drive, hd_volumen_serial: l.hd_volumen_serial
     self.assign_attributes sitecode: new_sitecode, mid: new_mid, notes: new_notes, user: user_renewing, 
@@ -70,7 +71,7 @@ class License < ActiveRecord::Base
       hd_volumen_serial: l.hd_volumen_serial
     
     License.transaction do
-      # mov.save!
+      movement.save!
       computer.save!
       self.save!
     end
@@ -83,11 +84,11 @@ class License < ActiveRecord::Base
     raise NotActive unless active?
     raise IncorrectRemovalCode unless removal_code == given_removal_code
     
-    # mov = GenerarMovimientoHistorico()
+    movement = archive()
     self.assign_attributes status: REMOVED, removal_reason: reason, user: user_removing
 
     License.transaction do
-      # mov.save!
+      movement.save!
       self.save!
     end
     
@@ -103,7 +104,7 @@ class License < ActiveRecord::Base
 
     check_computer_ids new_computer, l
     
-    # mov = GenerarMovimientoHistorico()
+    movement = archive()
     new_computer.assign_attributes motherboard_bios: l.motherboard_bios, cpu: l.cpu, 
       hard_drive: l.hard_drive, hd_volumen_serial: l.hd_volumen_serial
     self.assign_attributes sitecode: new_sitecode, mid: new_mid, notes: new_notes, 
@@ -112,7 +113,7 @@ class License < ActiveRecord::Base
       hard_drive: l.hard_drive, hd_volumen_serial: l.hd_volumen_serial
     
     License.transaction do
-      # mov.save!
+      movement.save!
       new_computer.save!
       self.save!
     end
@@ -137,4 +138,8 @@ class License < ActiveRecord::Base
     end
   end
   
+  def archive()
+    Movement.new self.attributes.except('id').merge({"license_id" => id})
+  end
+
 end

@@ -13,5 +13,6 @@ class User < ActiveRecord::Base
   
   belongs_to :distributor
   has_many   :licenses
+  has_many :movements
   
 end

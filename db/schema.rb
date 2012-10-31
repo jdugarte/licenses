@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121028153928) do
+ActiveRecord::Schema.define(:version => 20121031200737) do
 
   create_table "applications", :force => true do |t|
     t.string   "name",                                     :default => ""
@@ -77,6 +77,32 @@ ActiveRecord::Schema.define(:version => 20121028153928) do
   add_index "licenses", ["application_id"], :name => "index_licenses_on_application_id"
   add_index "licenses", ["computer_id"], :name => "index_licenses_on_computer_id"
   add_index "licenses", ["user_id"], :name => "index_licenses_on_user_id"
+
+  create_table "movements", :force => true do |t|
+    t.integer  "license_id"
+    t.integer  "application_id"
+    t.integer  "computer_id"
+    t.string   "sitecode",          :limit => 8,  :default => ""
+    t.string   "mid",               :limit => 19, :default => ""
+    t.string   "activation_code",   :limit => 35, :default => ""
+    t.string   "removal_code",      :limit => 8,  :default => ""
+    t.integer  "hd_volumen_serial", :limit => 4,  :default => 0
+    t.integer  "motherboard_bios",  :limit => 4,  :default => 0
+    t.integer  "cpu",               :limit => 4,  :default => 0
+    t.integer  "hard_drive",        :limit => 4,  :default => 0
+    t.text     "notes"
+    t.text     "removal_reason"
+    t.integer  "status",            :limit => 1,  :default => 0
+    t.datetime "processing_date"
+    t.integer  "user_id"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+  end
+
+  add_index "movements", ["application_id"], :name => "index_movements_on_application_id"
+  add_index "movements", ["computer_id"], :name => "index_movements_on_computer_id"
+  add_index "movements", ["license_id"], :name => "index_movements_on_license_id"
+  add_index "movements", ["user_id"], :name => "index_movements_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",    :null => false

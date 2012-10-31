@@ -4,6 +4,7 @@ class Application < ActiveRecord::Base
   validates :ProgramID, :presence => true
 
   has_many :licenses
+  has_many :movements
   
   attr_accessible :name, :ProgramID, :price
   

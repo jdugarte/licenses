@@ -66,7 +66,9 @@ class LicenseTest < ActiveSupport::TestCase
   # renew
   test "should renew license" do
     license = licenses(:logiciel)
-    license.renew "F4F21A80", "162C-7E8F-D4CF-4A13", users(:user1), "Update license"
+    assert_difference('Movement.count') do
+      license.renew "F4F21A80", "162C-7E8F-D4CF-4A13", users(:user1), "Update license"
+    end
     # license codes
     assert_equal "D677A8F6-109A1636-364E8B5D-1D0CA327", license.activation_code, "activation_code"
     assert_equal "061D40E5", license.removal_code, "removal_code"
@@ -85,31 +87,41 @@ class LicenseTest < ActiveSupport::TestCase
   end
   test "should renew license with a difference in one ID code" do
     license = licenses(:renew_one)
-    license.renew "044D4C09", "8F33-D6E7-C3A0-426B", users(:user1), "Update license"
+    assert_difference('Movement.count') do
+      license.renew "044D4C09", "8F33-D6E7-C3A0-426B", users(:user1), "Update license"
+    end
     assert_equal "4C005669-8A726B99-2EFA705E-805420E4", license.activation_code, "activation_code"
   end
   test "should renew license with a difference in two ID codes" do
     license = licenses(:renew_two)
-    license.renew "2D2DE1E4", "D2A3-60ED-3518-68FE", users(:user1), "Update license"
+    assert_difference('Movement.count') do
+      license.renew "2D2DE1E4", "D2A3-60ED-3518-68FE", users(:user1), "Update license"
+    end
     assert_equal "39FB9217-C0BC6415-554909A9-91BAA844", license.activation_code, "activation_code"
   end
   test "should raise ArgumentError when renewing" do
     license = licenses(:processed1)
     assert_raise ArgumentError do
-      license.renew
+      assert_no_difference('Movement.count') do
+        license.renew
+      end
     end
   end
   test "should raise License::NotActive when renewing" do
     license = licenses(:unprocessed1)
     assert_raise License::NotActive do
-      license.renew "XXXXXXXX", "XXXX-XXXX-XXXX-XXXX", users(:user1)
+      assert_no_difference('Movement.count') do
+        license.renew "XXXXXXXX", "XXXX-XXXX-XXXX-XXXX", users(:user1)
+      end
     end
   end
   
   # remove
   test "should remove license" do
     license = licenses(:logiciel)
-    license.remove "9D3FB81E", users(:user1), "Test removing"
+    assert_difference('Movement.count') do
+      license.remove "9D3FB81E", users(:user1), "Test removing"
+    end
     assert license.removed?, "removed?"
     assert_equal "Test removing", license.removal_reason, "removal_reason"
     assert_equal users(:user1).id, license.user.id, "user"
@@ -117,26 +129,34 @@ class LicenseTest < ActiveSupport::TestCase
   test "should raise ArgumentError when removing" do
     license = licenses(:processed1)
     assert_raise ArgumentError do
-      license.remove
+      assert_no_difference('Movement.count') do
+        license.remove
+      end
     end
   end
   test "should raise License::NotActive when removing" do
     license = licenses(:unprocessed1)
     assert_raise License::NotActive do
-      license.remove "XXXXXXXX", users(:user1)
+      assert_no_difference('Movement.count') do
+        license.remove "XXXXXXXX", users(:user1)
+      end
     end
   end
   test "should raise License::IncorrectRemovalCode when removing" do
     license = licenses(:logiciel)
     assert_raise License::IncorrectRemovalCode do
-      license.remove "XXXXXXXX", users(:user1)
+      assert_no_difference('Movement.count') do
+        license.remove "XXXXXXXX", users(:user1)
+      end
     end
   end
   
   # transfer
   test "should transfer license" do
     license = licenses(:transfer)
-    license.transfer computers(:transfer_dest), "341879DF", "B4CB6928", "97CC-881B-1395-FFB3", users(:user1), "Transfer license"
+    assert_difference('Movement.count') do
+      license.transfer computers(:transfer_dest), "341879DF", "B4CB6928", "97CC-881B-1395-FFB3", users(:user1), "Transfer license"
+    end
     # license codes
     assert_equal "F6F60E8D-A2B916B2-DD33DA14-A3E25021", license.activation_code, "activation_code"
     assert_equal "F9899C57", license.removal_code, "removal_code"
@@ -152,19 +172,25 @@ class LicenseTest < ActiveSupport::TestCase
   test "should raise ArgumentError when transfering" do
     license = licenses(:processed1)
     assert_raise ArgumentError do
-      license.transfer
+      assert_no_difference('Movement.count') do
+        license.transfer
+      end
     end
   end
   test "should raise License::NotActive when transfering" do
     license = licenses(:unprocessed1)
     assert_raise License::NotActive do
-      license.transfer computers(:transfer_dest), "341879DF", "B4CB6928", "97CC-881B-1395-FFB3", users(:user1), "Transfer license"
+      assert_no_difference('Movement.count') do
+        license.transfer computers(:transfer_dest), "341879DF", "B4CB6928", "97CC-881B-1395-FFB3", users(:user1), "Transfer license"
+      end
     end
   end
   test "should raise License::IncorrectRemovalCode when transfering" do
     license = licenses(:transfer)
     assert_raise License::IncorrectRemovalCode do
-      license.transfer computers(:transfer_dest), "XXXXXXXX", "B4CB6928", "97CC-881B-1395-FFB3", users(:user1), "Transfer license"
+      assert_no_difference('Movement.count') do
+        license.transfer computers(:transfer_dest), "XXXXXXXX", "B4CB6928", "97CC-881B-1395-FFB3", users(:user1), "Transfer license"
+      end
     end
   end
   
