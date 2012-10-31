@@ -22,9 +22,19 @@ class LicenseTest < ActiveSupport::TestCase
     assert license.errors[:computer_id].any?, "computer_id"
     assert !license.save
   end
+  test "can create new license after removed" do
+    license1 = licenses(:renew_one)
+    license1.remove "CA03FF8E", users(:user1)
+    license2 = License.new application: applications(:dummy), computer: computers(:renew_one), sitecode: "044D4C09", mid: "8F33-D6E7-C3A0-426B"
+    assert license2.valid?, "valid?"
+    assert license2.save
+  end
   test "should have status" do
     assert licenses(:unprocessed1).unprocessed?
     assert licenses(:processed1).active?
+    # assert licenses(:rejected).rejected?
+    # assert licenses(:removed).removed?
+    # assert licenses(:transferring).transferring?
   end
   
   # process
@@ -117,10 +127,45 @@ class LicenseTest < ActiveSupport::TestCase
       license.remove "XXXXXXXX", users(:user1)
     end
   end
-  test "should raise License::IncorrectRemovalCode" do
+  test "should raise License::IncorrectRemovalCode when removing" do
     license = licenses(:logiciel)
     assert_raise License::IncorrectRemovalCode do
       license.remove "XXXXXXXX", users(:user1)
+    end
+  end
+  
+  # transfer
+  test "should transfer license" do
+    license = licenses(:transfer)
+    license.transfer computers(:transfer_dest), "341879DF", "B4CB6928", "97CC-881B-1395-FFB3", users(:user1), "Transfer license"
+    # license codes
+    assert_equal "F6F60E8D-A2B916B2-DD33DA14-A3E25021", license.activation_code, "activation_code"
+    assert_equal "F9899C57", license.removal_code, "removal_code"
+    # license ID codes
+    assert_equal computers(:transfer_dest).id, license.computer.id, "computer"
+    assert_equal 337, license.motherboard_bios, "motherboard_bios"
+    assert_equal 1,   license.cpu, "cpu"
+    assert_equal 113, license.hard_drive, "hard_drive"
+    # other info
+    assert_equal "Transfer license", license.notes, "notes"
+    assert_equal users(:user1).id, license.user.id, "user"
+  end
+  test "should raise ArgumentError when transfering" do
+    license = licenses(:processed1)
+    assert_raise ArgumentError do
+      license.transfer
+    end
+  end
+  test "should raise License::NotActive when transfering" do
+    license = licenses(:unprocessed1)
+    assert_raise License::NotActive do
+      license.transfer computers(:transfer_dest), "341879DF", "B4CB6928", "97CC-881B-1395-FFB3", users(:user1), "Transfer license"
+    end
+  end
+  test "should raise License::IncorrectRemovalCode when transfering" do
+    license = licenses(:transfer)
+    assert_raise License::IncorrectRemovalCode do
+      license.transfer computers(:transfer_dest), "XXXXXXXX", "B4CB6928", "97CC-881B-1395-FFB3", users(:user1), "Transfer license"
     end
   end
   

@@ -10,15 +10,15 @@ class License < ActiveRecord::Base
   TRANSFERRING = 5
   
   validates :sitecode, :mid, :status, :presence => true
-  validates :computer_id, :uniqueness => { :scope => :application_id }
-  
+  validate :only_one_active_license_per_computer
+
   after_initialize :init
   
   belongs_to :application
   belongs_to :computer
   belongs_to :user
 
-  attr_accessible :sitecode, :mid, :activation_code, :removal_code, :removal_reason, :hd_volumen_serial, :motherboard_bios, :cpu, :hard_drive, :notes, :status, :processing_date, :user
+  attr_accessible :sitecode, :mid, :activation_code, :removal_code, :removal_reason, :hd_volumen_serial, :motherboard_bios, :cpu, :hard_drive, :notes, :status, :processing_date, :user, :computer, :application
   
   class AlreadyProcessed < StandardError; end
   class NotActive < StandardError; end
@@ -56,19 +56,19 @@ class License < ActiveRecord::Base
     self.update_attribute(:status, REJECTED) if self.valid?
   end
   
-  def renew(new_sitecode, new_mid, new_user, new_notes = "")
-    raise ArgumentError if new_sitecode.blank? or new_mid.blank? or new_user.nil?
+  def renew(new_sitecode, new_mid, user_renewing, new_notes = "")
+
+    raise ArgumentError if new_sitecode.blank? or new_mid.blank? or user_renewing.nil?
     raise NotActive unless active?
     
     l = PCGuard.new(application.ProgramID, new_sitecode, new_mid)
 
-    raise ComputerNotRegistered if motherboard_bios.nonzero? != l.motherboard_bios and cpu.nonzero? != l.cpu and hard_drive.nonzero? != l.hard_drive
+    check_computer_ids computer, l
     
     # mov = GenerarMovimientoHistorico()
-
     computer.assign_attributes motherboard_bios: l.motherboard_bios, cpu: l.cpu, 
       hard_drive: l.hard_drive, hd_volumen_serial: l.hd_volumen_serial
-    self.assign_attributes sitecode: new_sitecode, mid: new_mid, notes: new_notes, user: new_user, 
+    self.assign_attributes sitecode: new_sitecode, mid: new_mid, notes: new_notes, user: user_renewing, 
       activation_code: l.activation_code, removal_code: l.removal_code, cpu: l.cpu, 
       motherboard_bios: l.motherboard_bios, hard_drive: l.hard_drive, 
       hd_volumen_serial: l.hd_volumen_serial
@@ -78,6 +78,7 @@ class License < ActiveRecord::Base
       computer.save!
       self.save!
     end
+    
   end
 
   def remove(given_removal_code, user_removing, reason = "")
@@ -88,6 +89,7 @@ class License < ActiveRecord::Base
     
     # mov = GenerarMovimientoHistorico()
     self.assign_attributes status: REMOVED, removal_reason: reason, user: user_removing
+
     License.transaction do
       # mov.save!
       self.save!
@@ -95,4 +97,48 @@ class License < ActiveRecord::Base
     
   end
 
+  def transfer(new_computer, given_removal_code, new_sitecode, new_mid, user_trans, new_notes = "")
+  
+    raise ArgumentError if new_computer.nil? or given_removal_code.blank? or new_sitecode.blank? or new_mid.blank? or user_trans.nil?
+    raise NotActive unless active?
+    raise IncorrectRemovalCode unless removal_code == given_removal_code
+
+    l = PCGuard.new(application.ProgramID, new_sitecode, new_mid)
+
+    check_computer_ids new_computer, l
+    
+    # mov = GenerarMovimientoHistorico()
+    new_computer.assign_attributes motherboard_bios: l.motherboard_bios, cpu: l.cpu, 
+      hard_drive: l.hard_drive, hd_volumen_serial: l.hd_volumen_serial
+    self.assign_attributes sitecode: new_sitecode, mid: new_mid, notes: new_notes, 
+      computer: new_computer, user: user_trans, activation_code: l.activation_code, 
+      removal_code: l.removal_code, cpu: l.cpu, motherboard_bios: l.motherboard_bios, 
+      hard_drive: l.hard_drive, hd_volumen_serial: l.hd_volumen_serial
+    
+    License.transaction do
+      # mov.save!
+      new_computer.save!
+      self.save!
+    end
+      
+  end
+    
+  private
+  
+  def only_one_active_license_per_computer
+    unless removed? or rejected?
+      if License.exists? ["application_id = ? AND computer_id = ? AND status NOT IN (?, ?) AND id != ?", application_id, computer_id, REMOVED, REJECTED, id.to_i]
+        errors.add( :computer_id, 'already has an active license for this application')
+      end
+    end
+  end  
+
+  def check_computer_ids(comp, lic)
+    if comp.motherboard_bios.nonzero? != lic.motherboard_bios and 
+       comp.cpu.nonzero? != lic.cpu and 
+       comp.hard_drive.nonzero? != lic.hard_drive
+      raise ComputerNotRegistered
+    end
+  end
+  
 end

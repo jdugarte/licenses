@@ -61,3 +61,19 @@ renew_two:
   motherboard_bios: 389
   cpu: 19
   hard_drive: 46
+
+transfer_orig:
+  name: transfer
+  client: dummy
+  hd_volumen_serial: 0
+  motherboard_bios: 904
+  cpu: 47
+  hard_drive: 35
+
+transfer_dest:
+  name: transfer
+  client: dummy
+  hd_volumen_serial: 0
+  motherboard_bios: 337
+  cpu: 1
+  hard_drive: 113

@@ -134,3 +134,20 @@ renew_two:
   processing_date: 2012-10-28 11:39:29
   user: dist_user
 
+transfer:
+  application: dummy
+  computer: transfer_orig
+  sitecode: DEFE96B8
+  mid: CD96-C7B0-E701-6107
+  activation_code: 9881763E-DB0B38A9-397904C5-6DF7C1DB
+  removal_code: 341879DF
+  hd_volumen_serial: 0
+  motherboard_bios: 904
+  cpu: 47
+  hard_drive: 35
+  notes: transfer
+  removal_reason:
+  status: 2
+  processing_date: 2012-10-28 11:39:29
+  user: dist_user
+
