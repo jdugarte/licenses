@@ -8,8 +8,9 @@ class License < ActiveRecord::Base
   REJECTED = 3
   REMOVED = 4
   
-  validates :sitecode, :mid, :status, :presence => true
+  validates :application_id, :computer_id, :sitecode, :mid, :status, :presence => true
   validate :only_one_active_license_per_computer
+  validates_associated :application, :computer
 
   after_initialize :init
   
@@ -18,7 +19,11 @@ class License < ActiveRecord::Base
   belongs_to :user
   has_many :movements
 
-  attr_accessible :sitecode, :mid, :activation_code, :removal_code, :removal_reason, :hd_volumen_serial, :motherboard_bios, :cpu, :hard_drive, :notes, :status, :processing_date, :user, :computer, :application
+  attr_accessible :sitecode, :mid, :activation_code, :removal_code, :removal_reason, :hd_volumen_serial, :motherboard_bios, :cpu, :hard_drive, :notes, :status, :processing_date, :user, :user_id, :computer, :computer_id, :application, :application_id
+
+  # Virtual attributes, to handle new license form
+  attr_accessor :client_id
+  attr_accessible :client_id
   
   class AlreadyProcessed < StandardError; end
   class NotActive < StandardError; end

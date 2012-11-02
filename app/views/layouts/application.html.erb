@@ -18,6 +18,9 @@
       <nav id="nav_user">
         <p><span id="currentuser"><%= current_user.name %></span></p>
         <ul>
+          <% if current_user.distributor.dist? %>
+            <li><%= link_to "Licenses", licenses_path %></li>
+          <% end %>
           <% if current_user.admin? %>
             <li><%= link_to "Users", users_path %></li>
           <% end %>
