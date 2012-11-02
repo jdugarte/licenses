@@ -7,15 +7,19 @@ class ApplicationController < ActionController::Base
   private
   
   def check_admin!
-    redirect_to :root if !current_user.admin? or current_user.distributor.dist?
+    redirect_access_denied if !current_user.admin? or current_user.distributor.dist?
   end
   
   def check_main!
-    redirect_to :root if !current_user.admin? or !current_user.distributor.main?
+    redirect_access_denied if !current_user.admin? or !current_user.distributor.main?
   end
   
   def check_dist!
-    redirect_to :root unless current_user.distributor.dist?
+    redirect_access_denied unless current_user.distributor.dist?
+  end
+  
+  def check_admin_dist!
+    redirect_access_denied unless current_user.admin? and current_user.distributor.dist?
   end
   
   def record_not_found(exception)
@@ -23,5 +27,12 @@ class ApplicationController < ActionController::Base
     flash[:error] = "The #{model} you requested could not be found."
     redirect_to url_for(model.classify.constantize)
   end 
-    
+  
+  private
+  
+  def redirect_access_denied
+    flash[:warning] = "Access denied"
+    redirect_to :root
+  end
+  
 end
