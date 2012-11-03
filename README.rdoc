@@ -1,3 +1,19 @@
 == Licenses
 
 Software lincensing control system, using PCGuard to generate activation codes.
+
+== Getting Started
+
+1. Clone app and set up database
+    git clone https://github.com/jdugarte/licenses.git
+    cd licenses
+    bundle
+    rake db:migrate
+    rake db:seed
+
+2. Set up license generation mode, <tt>generate_dummy_licenses</tt> setting in /config/initializers/pcguard.rb
+
+3. Run server
+    rails server
+  
+4. Go to http://localhost:3000/ and login with user "admin@local.com", password "123123"
