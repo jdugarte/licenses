@@ -45,7 +45,11 @@ class PCGuard
     
     raise ArgumentError if (@programid.empty? || @sitecode.empty? || @mid.empty?)
     
-    l = WIN32OLE.new("icgweb.icgen")
+    if Licenses::Application.config.generate_dummy_licenses
+      l = DummyLicenseGenerator.new
+    else
+      l = WIN32OLE.new("icgweb.icgen")
+    end
     
     # Validate machine codes
     l.ProgramID = @programid
@@ -84,5 +88,45 @@ class PCGuard
     @activation_code
     
   end
+  
+end
+
+class DummyLicenseGenerator
+
+  attr_accessor :ProgramID, :SiteCode, :MachineID, :Features
+  
+  def initialize
+    @ProgramID = ""
+    @SiteCode  = ""
+    @MachineID = ""
+    @Features  = 0
+  end
+  
+  def V5_CheckMachineID; end
+  def V5_CalculateActivationCode; end
+  def ResponseCode
+    @SiteCode[0].to_i
+  end
+  
+  def ActivationCode
+    "XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX"
+  end
+  def RemoveCode
+    "XXXXXXXX"
+  end
+
+  def BiosID
+    @MachineID.split(",")[0]
+  end
+  def CPUID
+    @MachineID.split(",")[1]
+  end
+  def HDHWID
+    @MachineID.split(",")[2]
+  end
+  def DriveID ; 0 ; end
+  def OSID ; 0 ; end
+  def CDHWID ; 0 ; end
+  def NETID ; 0 ; end
   
 end
