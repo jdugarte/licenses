@@ -18,7 +18,9 @@ class License < ActiveRecord::Base
   belongs_to :computer
   belongs_to :user
   has_many :movements
-
+  
+  scope :active, where(:status => ACTIVE)
+  
   attr_accessible :sitecode, :mid, :activation_code, :removal_code, :removal_reason, :hd_volumen_serial, :motherboard_bios, :cpu, :hard_drive, :notes, :status, :processing_date, :user, :user_id, :computer, :computer_id, :application, :application_id
 
   # Virtual attributes, to handle new license form

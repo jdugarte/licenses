@@ -17,4 +17,8 @@ module ApplicationHelper
     end
   end
   
+  def date_since(datetime)
+    datetime.strftime('%a, %d %b, %I:%M%p') + ' (' + time_ago_in_words(datetime) + ')'
+  end
+
 end

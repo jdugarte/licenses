@@ -1,22 +1,17 @@
 <h1>Listing licenses</h1>
 
-<table>
-  <tr>
-    <th>Activation code</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @licenses.each do |license| %>
-  <tr>
-    <td><%= license.activation_code %></td>
-    <td><%= link_to 'Show', license %></td>
-    <td><%= link_to 'Edit', edit_license_path(license) %></td>
-    <td><%= link_to 'Destroy', license, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%= form_tag({}, {:method => :get}) do %>
+  Client: 
+  <%= collection_select(:selected_client, :id,  @clients,  :id, :name, {:prompt   => "Select a client"}, { :id => "licenses_clients_select", :onchange => "this.form.submit();" }) %>
+  Order:
+  <%= select_tag :order, options_for_select([["Application","application_id"],["Computer","computer_id"]], @order), :onchange => "this.form.submit();" %>
 <% end %>
-</table>
+
+<% if @order == "application_id" %>
+  <%= render "item", :title => "Computer", :div_obj => "application", :col_obj => "computer" %>
+<% elsif @order == "computer_id" %>
+  <%= render "item", :title => "Application", :div_obj => "computer", :col_obj => "application" %>
+<% end %>
 
 <br />
 

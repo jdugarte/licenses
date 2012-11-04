@@ -61,6 +61,25 @@ class LicensesController < ApplicationController
       
   end
   
+  # GET /licenses
+  # GET /licenses.json
+  def index
+    @clients = current_user.distributor.clients
+    @order = params[:order] || "application_id"
+    if params[:selected_client].blank? or params[:selected_client][:id].blank?
+      @selected_client = nil
+      @licenses = []
+    else
+      @selected_client = current_user.distributor.clients.find params[:selected_client][:id]
+      @licenses = @selected_client.licenses.order(@order) # active.
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @licenses }
+    end
+  end
+
   private
   
   def rescue_from_license_errors(field_error)

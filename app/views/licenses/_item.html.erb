@@ -1,0 +1,36 @@
+<table>
+
+  <tr>
+    <th><%= title %></th>
+    <th>Status</th>
+    <th>Requested</th>
+    <th>Updated</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% division = 0 %>
+  
+  <% @licenses.each do |license| %>
+  
+    <% if division != license.send(div_obj).id %>
+      <% division = license.send(div_obj).id %>
+      <tr>
+        <td colspan="7"><h2><%= license.send(div_obj).name %></h2></td>
+      </tr>
+    <% end %>
+    
+    <tr>
+      <td><%= license.send(col_obj).name %></td>
+      <td><%= status(license) %></td>
+      <td><%= date_since(license.created_at) %></td>
+      <td><%= date_since(license.updated_at) %></td>
+      <td><%= link_to 'Show', license %></td>
+      <td><%= link_to 'Edit', edit_license_path(license) %></td>
+      <td><%= link_to 'Destroy', license, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+    
+  <% end %>
+
+</table>
