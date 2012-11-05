@@ -6,17 +6,6 @@ class LicensesController < ApplicationController
   rescue_from PCGuard::BadSiteCode, :with => proc { |e| rescue_from_license_errors :sitecode }
   rescue_from PCGuard::BadMID, PCGuard::MIDCodeError, :with => proc { |e| rescue_from_license_errors :mid }
 
-  # GET /licenses
-  # GET /licenses.json
-  def index
-    @licenses = License.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @licenses }
-    end
-  end
-
   # GET /licenses/new
   # GET /licenses/new.json
   def new
