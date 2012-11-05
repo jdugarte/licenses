@@ -3,10 +3,15 @@
 <%= form_tag({}, {:method => :get}) do %>
   Client: 
   <%= collection_select(:selected_client, :id,  @clients,  :id, :name, {:prompt   => "Select a client"}, { :id => "licenses_clients_select", :onchange => "this.form.submit();" }) %>
+  <%= separator %>
   Order:
   <%= select_tag :order, options_for_select([["Application","application_id"],["Computer","computer_id"]], @order), :onchange => "this.form.submit();" %>
+  <%= separator %>
   <%= check_box_tag :show_all, "yes", false, { :checked => @show_all, :onchange => "this.form.submit();" } %>
   Show all
+  <%= separator %>
+  <%= text_field_tag :search, params[:search] %>
+  <%= submit_tag "Search" %>
 <% end %>
 
 <% if @order == "application_id" %>

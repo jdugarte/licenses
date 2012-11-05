@@ -20,5 +20,9 @@ module ApplicationHelper
   def date_since(datetime)
     datetime.strftime('%a, %d %b, %I:%M%p') + ' (' + time_ago_in_words(datetime) + ')'
   end
+  
+  def separator
+    raw "&nbsp;|&nbsp;"
+  end
 
 end

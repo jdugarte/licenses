@@ -69,7 +69,7 @@ class LicensesController < ApplicationController
     @show_all = !!params[:show_all]
     if @selected_client
       @selected_client = current_user.distributor.clients.find @selected_client
-      @licenses = @selected_client.licenses.order(@order)
+      @licenses = @selected_client.licenses.search(params[:search]).order(@order)
       @licenses = @licenses.active unless @show_all
     else
       @licenses = []

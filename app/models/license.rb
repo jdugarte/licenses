@@ -127,6 +127,14 @@ class License < ActiveRecord::Base
       
   end
     
+  def self.search(search) 
+    if search 
+      where('notes LIKE ?', "%#{search}%") 
+    else 
+      scoped 
+    end 
+  end
+
   private
   
   def only_one_active_license_per_computer
