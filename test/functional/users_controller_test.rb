@@ -12,6 +12,10 @@ class UsersControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:users)
+    sign_in users(:dist_admin)
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:users)
   end
   test "should not include users from other distributors" do
     sign_in users(:logiciel_admin)

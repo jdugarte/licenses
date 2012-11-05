@@ -7,11 +7,11 @@ class ApplicationController < ActionController::Base
   private
   
   def check_admin!
-    redirect_access_denied if !current_user.admin? or current_user.distributor.dist?
+    redirect_access_denied unless current_user.admin?
   end
   
   def check_main!
-    redirect_access_denied if !current_user.admin? or !current_user.distributor.main?
+    redirect_access_denied unless current_user.admin? and current_user.distributor.main?
   end
   
   def check_dist!
@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
   
   def check_admin_dist!
-    redirect_access_denied unless current_user.admin? and current_user.distributor.dist?
+    redirect_access_denied if !current_user.admin? or current_user.distributor.dist?
   end
   
   def record_not_found(exception)
