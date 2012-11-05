@@ -64,15 +64,17 @@ class LicensesController < ApplicationController
   # GET /licenses
   # GET /licenses.json
   def index
-    @clients = current_user.distributor.clients
+    @selected_client = params[:selected_client].try(:[], :id).presence
     @order = params[:order] || "application_id"
-    if params[:selected_client].blank? or params[:selected_client][:id].blank?
-      @selected_client = nil
-      @licenses = []
+    @show_all = !!params[:show_all]
+    if @selected_client
+      @selected_client = current_user.distributor.clients.find @selected_client
+      @licenses = @selected_client.licenses.order(@order)
+      @licenses = @licenses.active unless @show_all
     else
-      @selected_client = current_user.distributor.clients.find params[:selected_client][:id]
-      @licenses = @selected_client.licenses.order(@order) # active.
+      @licenses = []
     end
+    @clients = current_user.distributor.clients
 
     respond_to do |format|
       format.html # index.html.erb

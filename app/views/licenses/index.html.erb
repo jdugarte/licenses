@@ -5,6 +5,8 @@
   <%= collection_select(:selected_client, :id,  @clients,  :id, :name, {:prompt   => "Select a client"}, { :id => "licenses_clients_select", :onchange => "this.form.submit();" }) %>
   Order:
   <%= select_tag :order, options_for_select([["Application","application_id"],["Computer","computer_id"]], @order), :onchange => "this.form.submit();" %>
+  <%= check_box_tag :show_all, "yes", false, { :checked => @show_all, :onchange => "this.form.submit();" } %>
+  Show all
 <% end %>
 
 <% if @order == "application_id" %>
