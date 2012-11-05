@@ -1,0 +1,77 @@
+<p>
+  <b>Client: </b>
+  <%= link_to @license.computer.client.name, @license.computer.client %>
+</p>
+<p>
+  <b>Aplication: </b>
+  <%= @license.application.name %>
+</p>
+<p>
+  <b>Computer: </b>
+  <%= link_to @license.computer.name, @license.computer.client %>
+</p>
+<% if @license.active? %>
+  <p>
+    <b>Activation Code: </b>
+    <%= @license.activation_code %>
+  </p>
+<% end %>
+<p>
+  <b>Site Code: </b>
+  <%= @license.sitecode %>
+</p>
+<p>
+  <b>MID: </b>
+  <%= @license.mid %>
+</p>
+<p>
+  <b>Status: </b>
+  <%= status(@license) %>
+</p>
+<% if @license.removed? %>
+  <p>
+    <b>Reason for removal: </b>
+    <%= @license.removal_reason %>
+  </p>
+<% end %>
+<p>
+  <b>Date: </b>
+  <%= date_since(@license.updated_at) %>
+</p>
+<p>
+  <b>Notes: </b>
+  <%= @license.notes %>
+</p>
+<p>
+  <b>User: </b>
+  <%= link_to_if current_user.admin?, @license.user.name, @license.user %>
+</p>
+<% unless @license.movements.empty? %>
+  <h2>History</h2>
+  <table>
+    <tr>
+      <th>Computer</th>
+      <th>Date</th>
+      <th>SiteCode</th>
+      <th>MID</th>
+      <th>Activation Code</th>
+      <th>Notes</th>
+      <th>User</th>
+    </tr>
+    <% @license.movements.each do |mov| %>
+      <tr>
+        <td><%= mov.computer.name %></td>
+        <td><%= mov.updated_at.to_s(:long) %></td>
+        <td><%= mov.sitecode %></td>
+        <td><%= mov.mid %></td>
+        <td><%= mov.activation_code %></td>
+        <td><%= mov.notes %></td>
+        <td><%= mov.user.name %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+
+<%= link_to 'Edit', edit_license_path(@license) %> |
+<%= link_to 'Back', licenses_path %>

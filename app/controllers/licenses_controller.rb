@@ -71,6 +71,17 @@ class LicensesController < ApplicationController
     end
   end
 
+  # GET /licenses/1
+  # GET /licenses/1.json
+  def show
+    @license = current_user.distributor.licenses.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @license }
+    end
+  end
+
   private
   
   def rescue_from_license_errors(field_error)

@@ -58,6 +58,22 @@ class LicensesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
   
+  # show
+  test "should show license" do
+    sign_in users(:dist_user)
+    get :show, id: licenses(:processed1)
+    assert_response :success
+  end
+  test "should not show license while not signed in" do
+    get :show, id: licenses(:processed1)
+    assert_redirected_to new_user_session_path
+  end
+  test "should not show license while not signed in as distributor" do
+    sign_in users(:logiciel_admin)
+    get :show, id: licenses(:processed1)
+    assert_redirected_to root_path
+  end
+  
   private
   
     def get_new_license
