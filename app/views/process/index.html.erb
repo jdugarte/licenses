@@ -1,0 +1,48 @@
+<h1>Process licenses</h1>
+
+<% if @licenses.empty? %>
+
+  <b>There are no licenses to process</b>
+
+<% else %>
+
+  <%= form_tag process_path, :method => :put do |f| %>
+
+    <table>
+
+      <tr>
+        <th align="center"><%= check_box_tag "select_all", { :id => "select_all" } %></th>
+        <th>Date</th>
+        <th>Application</th>
+        <th>Computer</th>
+      </tr>
+
+      <% client = 0 %>
+      <% @licenses.each do |license| %>
+
+        <% if client != license.computer.client_id %>
+          <% client = license.computer.client_id %>
+          <tr>
+            <td colspan="4"><h2><%= link_to license.computer.client.name, license.computer.client %></h2></td>
+          </tr>
+        <% end %>
+          
+        <tr>
+          <td align="center"><%= check_box :license, license.id, { :class => "select_license" } %></td>
+          <td><%= date_since(license.created_at) %></td>
+          <td><%= license.application.name %></td>
+          <td><%= license.computer.name %></td>
+        </tr>
+          
+      <% end %>
+
+    </table>
+    
+    <p>
+      <%= submit_tag "Approve" %>
+      <%= submit_tag "Reject" %>
+    </p>
+
+  <% end %>
+
+<% end %>

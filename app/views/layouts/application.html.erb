@@ -21,6 +21,9 @@
           <% if current_user.distributor.dist? %>
             <li><%= link_to "Licenses", licenses_path %></li>
           <% end %>
+          <% if current_user.admin? and current_user.distributor.dist? %>
+            <li><%= link_to "Process", process_path %></li>
+          <% end %>
           <% if current_user.admin? %>
             <li><%= link_to "Users", users_path %></li>
           <% end %>

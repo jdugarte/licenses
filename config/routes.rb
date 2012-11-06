@@ -13,7 +13,10 @@ Licenses::Application.routes.draw do
   resources :licenses do
     get 'update_computers', :on => :collection
   end
-    
+  resources :process, :only => [ :index ] do
+    put "update", :on => :collection
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

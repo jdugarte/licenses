@@ -20,6 +20,7 @@ class License < ActiveRecord::Base
   has_many :movements
   
   scope :active, where(:status => ACTIVE)
+  scope :unprocessed, where(:status => UNPROCESSED).joins(:computer).order(:client_id)
   
   attr_accessible :sitecode, :mid, :activation_code, :removal_code, :removal_reason, :hd_volumen_serial, :motherboard_bios, :cpu, :hard_drive, :notes, :status, :processing_date, :user, :user_id, :computer, :computer_id, :application, :application_id
 
@@ -55,9 +56,15 @@ class License < ActiveRecord::Base
     raise AlreadyProcessed if status != UNPROCESSED
     self.update_attribute(:status, ACTIVE) if self.valid?
   end
+  def self.approve!(ids)
+    self.where(:id => ids, :status => UNPROCESSED).update_all(:status => ACTIVE)
+  end
   def reject!
     raise AlreadyProcessed if status != UNPROCESSED
     self.update_attribute(:status, REJECTED) if self.valid?
+  end
+  def self.reject!(ids)
+    self.where(:id => ids, :status => UNPROCESSED).update_all(:status => REJECTED)
   end
   
   def renew(new_sitecode, new_mid, user_renewing, new_notes = "")
