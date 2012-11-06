@@ -2,6 +2,10 @@ require 'test_helper'
 
 class LicensesControllerTest < ActionController::TestCase
 
+  setup do
+    @license = licenses(:processed1)
+  end
+
   # index
   test "should get index signed in" do
     sign_in users(:dist_user)
@@ -61,23 +65,66 @@ class LicensesControllerTest < ActionController::TestCase
   # show
   test "should show license" do
     sign_in users(:dist_user)
-    get :show, id: licenses(:processed1)
+    get :show, id: @license
     assert_response :success
   end
   test "should not show license while not signed in" do
-    get :show, id: licenses(:processed1)
+    get :show, id: @license
     assert_redirected_to new_user_session_path
   end
   test "should not show license while not signed in as distributor" do
     sign_in users(:logiciel_admin)
-    get :show, id: licenses(:processed1)
+    get :show, id: @license
     assert_redirected_to root_path
   end
   
+  # edit
+  test "should get edit" do
+    sign_in users(:dist_user)
+    get :edit, id: @license
+    assert_response :success
+  end
+  test "should not get edit while not signed in" do
+    get :edit, id: @license
+    assert_redirected_to new_user_session_path
+  end
+  test "should not get edit while not signed in as distributor" do
+    sign_in users(:logiciel_admin)
+    get :edit, id: @license
+    assert_redirected_to root_path
+  end
+  test "should not get edit on a not active license" do
+    sign_in users(:dist_user)
+    get :edit, id: licenses(:unprocessed1)
+    assert_redirected_to licenses_path
+  end
+  
+  # update (renew)
+  test "should renew license" do
+    unless Licenses::Application.config.generate_dummy_licenses
+      sign_in users(:dist_user)
+      put :update, id: licenses(:renew_one), license: get_edit_license
+      assert_redirected_to license_path(assigns(:license))
+    end
+  end
+  test "should not renew license while not signed in" do
+    put :update, id: licenses(:renew_one), license: get_edit_license
+    assert_redirected_to new_user_session_path
+  end
+  test "should not renew license while not signed in as distributor" do
+    sign_in users(:logiciel_admin)
+    put :update, id: licenses(:renew_one), license: get_edit_license
+    assert_redirected_to root_path
+  end
+
   private
   
-    def get_new_license
-      { application_id: applications(:dummy).id, computer_id: computers(:transfer_dest), sitecode: "B4CB6928", mid: "97CC-881B-1395-FFB3", user_id: users(:dist_user).id }
-    end
-  
+  def get_new_license
+    { application_id: applications(:dummy).id, computer_id: computers(:transfer_dest), sitecode: "B4CB6928", mid: "97CC-881B-1395-FFB3", user_id: users(:dist_user).id }
+  end
+
+  def get_edit_license
+    { sitecode: "044D4C09", mid: "8F33-D6E7-C3A0-426B", notes: "Update license" }
+  end
+
 end

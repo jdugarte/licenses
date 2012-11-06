@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!
   protect_from_forgery
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
+  rescue_from License::NotActive, :with => :redirect_license_not_active
 
   private
   
@@ -39,4 +40,9 @@ class ApplicationController < ActionController::Base
     redirect_to :root
   end
   
+  def redirect_license_not_active
+    flash[:warning] = "License not active"
+    redirect_to licenses_path
+  end
+
 end

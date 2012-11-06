@@ -17,7 +17,7 @@ class License < ActiveRecord::Base
   belongs_to :application
   belongs_to :computer
   belongs_to :user
-  has_many :movements
+  has_many   :movements, :order => "updated_at DESC"
   
   scope :active, where(:status => ACTIVE)
   scope :unprocessed, where(:status => UNPROCESSED).joins(:computer).order(:client_id)
@@ -69,7 +69,6 @@ class License < ActiveRecord::Base
   
   def renew(new_sitecode, new_mid, user_renewing, new_notes = "")
 
-    raise ArgumentError if new_sitecode.blank? or new_mid.blank? or user_renewing.nil?
     raise NotActive unless active?
     
     l = PCGuard.new(application.ProgramID, new_sitecode, new_mid)
@@ -94,7 +93,6 @@ class License < ActiveRecord::Base
 
   def remove(given_removal_code, user_removing, reason = "")
     
-    raise ArgumentError if given_removal_code.blank? or user_removing.nil?
     raise NotActive unless active?
     raise IncorrectRemovalCode unless removal_code == given_removal_code
     
@@ -110,7 +108,6 @@ class License < ActiveRecord::Base
 
   def transfer(new_computer, given_removal_code, new_sitecode, new_mid, user_trans, new_notes = "")
   
-    raise ArgumentError if new_computer.nil? or given_removal_code.blank? or new_sitecode.blank? or new_mid.blank? or user_trans.nil?
     raise NotActive unless active?
     raise IncorrectRemovalCode unless removal_code == given_removal_code
 

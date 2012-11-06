@@ -5,6 +5,7 @@ class LicensesController < ApplicationController
   rescue_from PCGuard::BadProgramID, :with => proc { |e| rescue_from_license_errors :application_id }
   rescue_from PCGuard::BadSiteCode, :with => proc { |e| rescue_from_license_errors :sitecode }
   rescue_from PCGuard::BadMID, PCGuard::MIDCodeError, :with => proc { |e| rescue_from_license_errors :mid }
+  rescue_from License::ComputerNotRegistered, :with => :rescue_from_computer_not_registered
 
   # GET /licenses/new
   # GET /licenses/new.json
@@ -82,6 +83,28 @@ class LicensesController < ApplicationController
     end
   end
 
+  # GET /licenses/1/edit
+  def edit
+    @license = current_user.distributor.licenses.find(params[:id])
+    raise License::NotActive unless @license.active?
+    @license.sitecode = @license.mid = @license.notes = ""
+  end
+
+  # PUT /licenses/1
+  # PUT /licenses/1.json
+  def update
+    @license = current_user.distributor.licenses.find(params[:id])
+
+    if @license.renew(params[:license][:sitecode], params[:license][:mid], current_user, params[:license][:notes])
+      respond_to do |format|
+        format.html { redirect_to @license, notice: 'License was successfully renewed.' }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to_edit_form
+    end
+  end
+
   private
   
   def rescue_from_license_errors(field_error)
@@ -103,4 +126,17 @@ class LicensesController < ApplicationController
     end
   end
   
+  def rescue_from_computer_not_registered
+    @license.errors.add :mid, "doesn't coincide with this computer"
+    redirect_to_edit_form
+  end
+  
+  def redirect_to_edit_form
+    @license.assign_attributes sitecode: params[:license][:sitecode], mid: params[:license][:mid], notes: params[:license][:notes]
+    respond_to do |format|
+      format.html { render action: "edit" }
+      format.json { render json: @license.errors, status: :unprocessable_entity }
+    end
+  end
+
 end

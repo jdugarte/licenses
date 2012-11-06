@@ -1,0 +1,38 @@
+<h1>Renew license</h1>
+
+<p>
+  <b>Client: </b>
+  <%= link_to @license.computer.client.name, @license.computer.client %>
+</p>
+<p>
+  <b>Aplication: </b>
+  <%= @license.application.name %>
+</p>
+<p>
+  <b>Computer: </b>
+  <%= link_to @license.computer.name, @license.computer.client %>
+</p>
+
+<%= form_for(@license) do |f| %>
+
+  <%= error_messages @license %>
+
+  <div class="field">
+    <%= f.label :sitecode %><br />
+    <%= f.text_field :sitecode, :size => 8 %>
+  </div>
+  <div class="field">
+    <%= f.label :mid %><br />
+    <%= f.text_field :mid, :size => 19 %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br />
+    <%= f.text_area :notes, :size => "40x4" %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @license %> |
+<%= link_to 'Back', licenses_path %>

@@ -121,14 +121,6 @@ class LicenseTest < ActiveSupport::TestCase
       end
       assert_equal "39FB9217-C0BC6415-554909A9-91BAA844", license.activation_code, "activation_code"
     end
-    test "should raise ArgumentError when renewing" do
-      license = licenses(:processed1)
-      assert_raise ArgumentError do
-        assert_no_difference('Movement.count') do
-          license.renew
-        end
-      end
-    end
     test "should raise License::NotActive when renewing" do
       license = licenses(:unprocessed1)
       assert_raise License::NotActive do
@@ -147,14 +139,6 @@ class LicenseTest < ActiveSupport::TestCase
       assert license.removed?, "removed?"
       assert_equal "Test removing", license.removal_reason, "removal_reason"
       assert_equal users(:user1).id, license.user.id, "user"
-    end
-    test "should raise ArgumentError when removing" do
-      license = licenses(:processed1)
-      assert_raise ArgumentError do
-        assert_no_difference('Movement.count') do
-          license.remove
-        end
-      end
     end
     test "should raise License::NotActive when removing" do
       license = licenses(:unprocessed1)
@@ -190,14 +174,6 @@ class LicenseTest < ActiveSupport::TestCase
       # other info
       assert_equal "Transfer license", license.notes, "notes"
       assert_equal users(:user1).id, license.user.id, "user"
-    end
-    test "should raise ArgumentError when transfering" do
-      license = licenses(:processed1)
-      assert_raise ArgumentError do
-        assert_no_difference('Movement.count') do
-          license.transfer
-        end
-      end
     end
     test "should raise License::NotActive when transfering" do
       license = licenses(:unprocessed1)
