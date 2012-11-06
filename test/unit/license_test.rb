@@ -46,11 +46,21 @@ class LicenseTest < ActiveSupport::TestCase
       end
       assert license.active?
     end
+    test "should approve several licenses" do
+      assert_equal 1, License.approve!([licenses(:unprocessed1).id])
+      license = License.find licenses(:unprocessed1).id
+      assert license.active?
+    end
     test "should reject license" do
       license = licenses(:unprocessed1)
       assert_nothing_raised License::AlreadyProcessed do
         license.reject!
       end
+      assert license.rejected?
+    end
+    test "should reject several licenses" do
+      assert_equal 1, License.reject!([licenses(:unprocessed1).id])
+      license = License.find licenses(:unprocessed1).id
       assert license.rejected?
     end
     test "should raise error when processing already processed license" do
