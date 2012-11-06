@@ -2,12 +2,12 @@
 
 <%= form_tag({}, {:method => :get}) do %>
   Client: 
-  <%= collection_select(:selected_client, :id,  @clients,  :id, :name, {:prompt   => "Select a client"}, { :id => "licenses_clients_select", :onchange => "this.form.submit();" }) %>
+  <%= collection_select(:selected_client, :id,  @clients,  :id, :name, {:prompt   => "Select a client"}, { :class => "submitter" }) %>
   <%= separator %>
   Order:
-  <%= select_tag :order, options_for_select([["Application","application_id"],["Computer","computer_id"]], @order), :onchange => "this.form.submit();" %>
+  <%= select_tag :order, options_for_select([["Application","application_id"],["Computer","computer_id"]], @order), :class => "submitter" %>
   <%= separator %>
-  <%= check_box_tag :show_all, "yes", false, { :checked => @show_all, :onchange => "this.form.submit();" } %>
+  <%= check_box_tag :show_all, "yes", false, { :checked => @show_all, :class => "submitter" } %>
   Show all
   <%= separator %>
   <%= text_field_tag :search, params[:search] %>
