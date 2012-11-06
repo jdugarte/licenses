@@ -6,6 +6,7 @@ class LicensesController < ApplicationController
   rescue_from PCGuard::BadSiteCode, :with => proc { |e| rescue_from_license_errors :sitecode }
   rescue_from PCGuard::BadMID, PCGuard::MIDCodeError, :with => proc { |e| rescue_from_license_errors :mid }
   rescue_from License::ComputerNotRegistered, :with => :rescue_from_computer_not_registered
+  rescue_from License::IncorrectRemovalCode, :with => :rescue_from_incorrect_removal_code
 
   # GET /licenses/new
   # GET /licenses/new.json
@@ -105,6 +106,28 @@ class LicensesController < ApplicationController
     end
   end
 
+  # GET /licenses/1/remove
+  def remove
+    @license = current_user.distributor.licenses.find(params[:id])
+    raise License::NotActive unless @license.active?
+    @license.removal_code = @license.removal_reason = ""
+  end
+
+  # DELETE /licenses/1
+  # DELETE /licenses/1.json
+  def destroy
+    @license = current_user.distributor.licenses.find(params[:id])
+
+    if @license.remove(params[:license][:removal_code], current_user, params[:license][:removal_reason])
+      respond_to do |format|
+        format.html { redirect_to @license, notice: 'License was successfully removed.' }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to_remove_form
+    end
+  end
+
   private
   
   def rescue_from_license_errors(field_error)
@@ -135,6 +158,19 @@ class LicensesController < ApplicationController
     @license.assign_attributes sitecode: params[:license][:sitecode], mid: params[:license][:mid], notes: params[:license][:notes]
     respond_to do |format|
       format.html { render action: "edit" }
+      format.json { render json: @license.errors, status: :unprocessable_entity }
+    end
+  end
+
+  def rescue_from_incorrect_removal_code
+    @license.errors.add :removal_code
+    redirect_to_remove_form
+  end
+  
+  def redirect_to_remove_form
+    @license.assign_attributes removal_code: params[:license][:removal_code], removal_reason: params[:license][:removal_reason]
+    respond_to do |format|
+      format.html { render action: "remove" }
       format.json { render json: @license.errors, status: :unprocessable_entity }
     end
   end

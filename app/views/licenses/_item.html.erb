@@ -28,11 +28,11 @@
       <td><%= date_since(license.updated_at) %></td>
       <td><%= link_to 'Show', license %></td>
       <td>
-        <% if license.active? %>
-          <%= link_to 'Renew', edit_license_path(license) %>
-        <% end %>
+        <%= link_to("Renew", edit_license_path(license)) if license.active? %>
       </td>
-      <td><%= link_to 'Destroy', license, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <td>
+        <%= link_to("Remove", remove_license_path(license)) if license.active? %>
+      </td>
     </tr>
     
   <% end %>

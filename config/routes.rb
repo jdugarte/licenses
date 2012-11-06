@@ -12,6 +12,7 @@ Licenses::Application.routes.draw do
   end
   resources :licenses do
     get 'update_computers', :on => :collection
+    get 'remove', :on => :member
   end
   resources :process, :only => [ :index ] do
     put "update", :on => :collection

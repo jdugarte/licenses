@@ -74,6 +74,7 @@
 
 
 <% if @license.active? %>
-  <%= link_to 'Renew', edit_license_path(@license) %> |
+  <%= link_to "Renew", edit_license_path(@license) %> |
+  <%= link_to "Remove", remove_license_path(@license) %> |
 <% end %>
 <%= link_to 'Back', licenses_path %>

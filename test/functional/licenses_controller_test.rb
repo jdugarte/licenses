@@ -117,6 +117,43 @@ class LicensesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  # remove
+  test "should get remove" do
+    sign_in users(:dist_user)
+    get :remove, id: @license
+    assert_response :success
+  end
+  test "should not get remove while not signed in" do
+    get :remove, id: @license
+    assert_redirected_to new_user_session_path
+  end
+  test "should not get remove while not signed in as distributor" do
+    sign_in users(:logiciel_admin)
+    get :remove, id: @license
+    assert_redirected_to root_path
+  end
+  test "should not get remove on a not active license" do
+    sign_in users(:dist_user)
+    get :remove, id: licenses(:unprocessed1)
+    assert_redirected_to licenses_path
+  end
+  
+  # destroy (remove)
+  test "should remove license" do
+    sign_in users(:dist_user)
+    delete :destroy, id: licenses(:renew_one), license: get_remove_license
+    assert_redirected_to license_path(assigns(:license))
+  end
+  test "should not remove license while not signed in" do
+    delete :destroy, id: licenses(:renew_one), license: get_remove_license
+    assert_redirected_to new_user_session_path
+  end
+  test "should not remove license while not signed in as distributor" do
+    sign_in users(:logiciel_admin)
+    delete :destroy, id: licenses(:renew_one), license: get_remove_license
+    assert_redirected_to root_path
+  end
+
   private
   
   def get_new_license
@@ -125,6 +162,10 @@ class LicensesControllerTest < ActionController::TestCase
 
   def get_edit_license
     { sitecode: "044D4C09", mid: "8F33-D6E7-C3A0-426B", notes: "Update license" }
+  end
+
+  def get_remove_license
+    { removal_code: "CA03FF8E", removal_reason: "Remove license" }
   end
 
 end
