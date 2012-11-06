@@ -27,15 +27,8 @@ class PCGuard
     @mid       = mid
     @features  = features
 
-    @activation_code   = ""
-    @removal_code      = ""
-    @hd_volumen_serial = 0
-    @motherboard_bios  = 0 
-    @cpu               = 0
-    @hard_drive        = 0
-    @operating_system  = 0
-    @cd_dvd            = 0
-    @network_card      = 0
+    @activation_code = @removal_code = ""
+    @hd_volumen_serial = @motherboard_bios = @cpu = @hard_drive = @operating_system = @cd_dvd = @network_card = 0
     
     self.generate unless (@programid.empty? || @sitecode.empty? || @mid.empty?)
     
