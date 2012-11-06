@@ -14,11 +14,15 @@ class ApplicationController < ActionController::Base
     redirect_access_denied unless current_user.admin? and current_user.distributor.main?
   end
   
-  def check_dist!
+  def check_distributor!
     redirect_access_denied unless current_user.distributor.dist?
   end
   
-  def check_admin_dist!
+  def check_distributor_admin!
+    redirect_access_denied unless current_user.admin? and current_user.distributor.dist?
+  end
+  
+  def check_distributors_admin!
     redirect_access_denied if !current_user.admin? or current_user.distributor.dist?
   end
   

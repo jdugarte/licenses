@@ -1,6 +1,6 @@
 class LicensesController < ApplicationController
 
-  before_filter :check_dist!
+  before_filter :check_distributor!
 
   rescue_from PCGuard::BadProgramID, :with => proc { |e| rescue_from_license_errors :application_id }
   rescue_from PCGuard::BadSiteCode, :with => proc { |e| rescue_from_license_errors :sitecode }

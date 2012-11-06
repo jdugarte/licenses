@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
 
-  before_filter :check_dist!
+  before_filter :check_distributor!
 
   # GET /clients
   # GET /clients.json

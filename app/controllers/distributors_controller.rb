@@ -1,6 +1,6 @@
 class DistributorsController < ApplicationController
 
-  before_filter :check_admin_dist!
+  before_filter :check_distributors_admin!
 
   # GET /distributors
   # GET /distributors.json
