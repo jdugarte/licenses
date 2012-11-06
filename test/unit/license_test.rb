@@ -37,6 +37,16 @@ class LicenseTest < ActiveSupport::TestCase
       # assert licenses(:rejected).rejected?
       # assert licenses(:removed).removed?
     end
+    test "License.active should include only active licenses" do
+      active_licenses = License.active
+      assert active_licenses.include?(licenses(:processed1))
+      assert !active_licenses.include?(licenses(:unprocessed1))
+    end
+    test "License.unprocessed should include only unprocessed licenses" do
+      unprocessed_licenses = License.unprocessed
+      assert unprocessed_licenses.include?(licenses(:unprocessed1))
+      assert !unprocessed_licenses.include?(licenses(:processed1))
+    end
     
     # process
     test "should approve license" do
