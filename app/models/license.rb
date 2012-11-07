@@ -84,9 +84,9 @@ class License < ActiveRecord::Base
       hd_volumen_serial: l.hd_volumen_serial
     
     License.transaction do
-      movement.save!
-      computer.save!
-      self.save!
+      movement.save
+      computer.save
+      self.save
     end
     
   end
@@ -100,8 +100,8 @@ class License < ActiveRecord::Base
     self.assign_attributes status: REMOVED, removal_reason: reason, user: user_removing
 
     License.transaction do
-      movement.save!
-      self.save!
+      movement.save
+      self.save
     end
     
   end
@@ -124,9 +124,9 @@ class License < ActiveRecord::Base
       hard_drive: l.hard_drive, hd_volumen_serial: l.hd_volumen_serial
     
     License.transaction do
-      movement.save!
-      new_computer.save!
-      self.save!
+      movement.save
+      new_computer.save
+      self.save
     end
       
   end
