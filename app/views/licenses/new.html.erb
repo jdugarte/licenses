@@ -6,7 +6,7 @@
 
   <div class="field">
     <%= f.label :client %><br />
-    <%= collection_select(:license, :client_id,  @clients,  :id, :name, {:prompt   => "Select a client"}, {:id => 'clients_select', 'data-url' => update_computers_licenses_path}) %>
+    <%= collection_select(:license, :client_id, current_user.distributor.clients,  :id, :name, {:prompt   => "Select a client"}, {:id => "clients_select", "data-url" => update_computers_licenses_path}) %>
   </div>
   <div class="field">
     <%= f.label :computer_id %><br />
@@ -14,7 +14,7 @@
   </div>
   <div class="field">
     <%= f.label :application_id %><br />
-    <%= collection_select(:license, :application_id, @applications, :id, :name) %>
+    <%= collection_select(:license, :application_id, Application.all, :id, :name) %>
   </div>
   <div class="field">
     <%= f.label :sitecode %><br />

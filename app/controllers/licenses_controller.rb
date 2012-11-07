@@ -12,9 +12,7 @@ class LicensesController < ApplicationController
   # GET /licenses/new.json
   def new
     @license = License.new
-    @clients = current_user.distributor.clients
     @computers = []
-    @applications = Application.all
     
     respond_to do |format|
       format.html # new.html.erb
@@ -136,17 +134,11 @@ class LicensesController < ApplicationController
   end
   
   def redirect_to_new_form
+    @computers = @license.computer.try(:client).try(:computers)
     respond_to do |format|
       format.html { render action: "new" }
       format.json { render json: @license.errors, status: :unprocessable_entity }
-      @clients = current_user.distributor.clients
-      if @license.computer.nil?
-        @computers = []
-      else
-        @computers = @license.computer.client.computers
-      end
-      @applications = Application.all
-    end
+   end
   end
   
   def rescue_from_computer_not_registered
