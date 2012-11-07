@@ -150,9 +150,9 @@ class License < ActiveRecord::Base
   end  
 
   def check_computer_ids(comp, lic)
-    if comp.motherboard_bios.nonzero? != lic.motherboard_bios and 
-       comp.cpu.nonzero? != lic.cpu and 
-       comp.hard_drive.nonzero? != lic.hard_drive
+    if (comp.motherboard_bios.nonzero? and comp.cpu.nonzero? and comp.hard_drive.nonzero?) and
+       (comp.motherboard_bios != lic.motherboard_bios and 
+        comp.cpu != lic.cpu and comp.hard_drive != lic.hard_drive)
       raise ComputerNotRegistered
     end
   end
