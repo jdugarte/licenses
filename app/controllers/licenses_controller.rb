@@ -134,7 +134,7 @@ class LicensesController < ApplicationController
   end
   
   def redirect_to_new_form
-    @computers = @license.computer.try(:client).try(:computers)
+    @computers = Client.find_by_id(params[:license].try(:[], :client_id)).try(:computers) || []
     respond_to do |format|
       format.html { render action: "new" }
       format.json { render json: @license.errors, status: :unprocessable_entity }
