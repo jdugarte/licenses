@@ -1,4 +1,4 @@
-$(document).ready ->
+do_on_load = ->
 
   $("#clients_select").change ->
     $.ajax
@@ -10,3 +10,7 @@ $(document).ready ->
   $(".submitter").each (i, element) =>
     $(element).change ->
       @form.submit()
+
+
+$(document).ready(do_on_load)
+$(document).on("page:change", do_on_load)
