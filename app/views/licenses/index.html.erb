@@ -1,6 +1,6 @@
 <h1>Listing licenses</h1>
 
-<%= form_tag({}, {:method => :get}) do %>
+<%= form_tag({}, {:method => :get, :id => "filters_form", :remote => true}) do %>
   Client: 
   <%= collection_select(:selected_client, :id,  @clients,  :id, :name, {:prompt   => "Select a client"}, { :class => "submitter" }) %>
   <%= separator %>
@@ -14,11 +14,13 @@
   <%= submit_tag "Search" %>
 <% end %>
 
-<% if @order == "application_id" %>
-  <%= render "item", :title => "Computer", :div_obj => "application", :col_obj => "computer" %>
-<% elsif @order == "computer_id" %>
-  <%= render "item", :title => "Application", :div_obj => "computer", :col_obj => "application" %>
-<% end %>
+<div id="license_list">
+  <% if @order == "application_id" %>
+    <%= render "item", :title => "Computer", :div_obj => "application", :col_obj => "computer" %>
+  <% elsif @order == "computer_id" %>
+    <%= render "item", :title => "Application", :div_obj => "computer", :col_obj => "application" %>
+  <% end %>
+</div>
 
 <br />
 

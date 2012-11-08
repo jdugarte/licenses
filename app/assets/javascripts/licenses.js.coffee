@@ -9,7 +9,7 @@ do_on_load = ->
 
   $(".submitter").each (i, element) =>
     $(element).change ->
-      @form.submit()
+      $("#filters_form").submit()
 
 
 $(document).ready(do_on_load)

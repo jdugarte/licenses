@@ -1,0 +1,5 @@
+<% if @order == "application_id" %>
+  $('#license_list').html('<%= escape_javascript render("item", :title => "Computer", :div_obj => "application", :col_obj => "computer") %>');
+<% elsif @order == "computer_id" %>
+  $('#license_list').html('<%= escape_javascript render("item", :title => "Application", :div_obj => "computer", :col_obj => "application") %>');
+<% end %>

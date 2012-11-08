@@ -60,6 +60,7 @@ class LicensesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @licenses }
+      format.js   {}
     end
   end
 
