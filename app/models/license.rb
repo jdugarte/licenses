@@ -13,6 +13,7 @@ class License < ActiveRecord::Base
   validates_associated :application, :computer
 
   after_initialize :init
+  before_create    :generate_codes
   
   belongs_to :application
   belongs_to :computer
@@ -140,6 +141,16 @@ class License < ActiveRecord::Base
   end
 
   private
+  
+  def generate_codes
+    l = PCGuard.new(application.ProgramID, sitecode, mid)
+    activation_code   = l.activation_code
+    removal_code      = l.removal_code
+    hd_volumen_serial = l.hd_volumen_serial
+    motherboard_bios  = l.motherboard_bios
+    cpu               = l.cpu
+    hard_drive        = l.hard_drive
+  end
   
   def only_one_active_license_per_computer
     unless removed? or rejected?

@@ -31,14 +31,6 @@ class LicensesController < ApplicationController
     @license = License.new(params[:license])
     @license.user = current_user
     
-    l = PCGuard.new(@license.application.ProgramID, @license.sitecode, @license.mid)
-    @license.activation_code   = l.activation_code
-    @license.removal_code      = l.removal_code
-    @license.hd_volumen_serial = l.hd_volumen_serial
-    @license.motherboard_bios  = l.motherboard_bios
-    @license.cpu               = l.cpu
-    @license.hard_drive        = l.hard_drive
-
     if @license.save
       respond_to do |format|
         format.html { redirect_to new_license_path, notice: 'License was successfully created.' }
